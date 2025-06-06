@@ -1,13 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Meta Basics -->
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ian Repsher | Portfolio</title>
+    <meta name="author" content="Ian Repsher" />
+    <meta name="keywords" content="Ian Repsher, Full Stack Developer, React, Angular, VoIP, Portfolio" />
+    <meta name="description" content="Ian Repsher is a full-stack developer specializing in Angular, React, and building high-performance VoIP apps." />
+    <title>Ian Repsher | Full-Stack Developer</title>
+
+    <!-- OpenGraph / Social Sharing -->
+    <meta property="og:title" content="Ian Repsher | Full-Stack Developer" />
+    <meta property="og:description" content="Check out Ian Repsher's portfolio, projects, and contact details." />
+    <meta property="og:image" content="https://yourdomain.com/og-preview.jpg" /> <!-- Optional: create this image -->
+    <meta property="og:url" content="https://yourdomain.com/" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Google Analytics (replace G-XXXXXXX with your real ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXX');
+    </script>
   </head>
+
   <body class="bg-black text-white">
+    <!-- App Root -->
     <div id="root"></div>
+
+    <!-- LinkedIn Badge -->
+    <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+    <div class="LI-profile-badge"
+         data-version="v1"
+         data-size="medium"
+         data-locale="en_US"
+         data-type="horizontal"
+         data-theme="dark"
+         data-vanity="ianrepsher">
+      <a class="LI-simple-link" href="https://www.linkedin.com/in/ianrepsher?trk=profile-badge">Ian Repsher</a>
+    </div>
+
+    <!-- React entry -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
