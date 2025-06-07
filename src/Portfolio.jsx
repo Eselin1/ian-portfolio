@@ -1,13 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import "./index.css";
 
 export default function Portfolio() {
   return (
     <main className="min-h-screen bg-white text-black dark:bg-black dark:text-white font-sans">
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center text-center py-24 px-4"></section>
-        </div>
+      <section className="flex flex-col items-center justify-center text-center py-24 px-4">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
