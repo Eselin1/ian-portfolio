@@ -2,7 +2,10 @@ module.exports = {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
-  },
+    extend: {
+      animation: {
+        'spin-slow': 'spin 12s linear infinite',
+    }
+  }
   plugins: [],
 }
