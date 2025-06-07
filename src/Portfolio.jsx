@@ -112,11 +112,23 @@ export default function Portfolio() {
 
       {/* Contact */}
       <section className="px-6 py-12 bg-gray-200 dark:bg-gray-950 text-center">
-        <h2 className="text-3xl font-semibold mb-6">Get in Touch</h2>
-        <p className="text-gray-700 dark:text-gray-400 mb-4">📧 iarepsher@gmail.com</p>
-        <p className="text-gray-700 dark:text-gray-400 mb-4">📍 New York, NY</p>
-        <a href="https://linkedin.com/in/ianrepsher" className="text-blue-500 dark:text-blue-400 hover:underline">LinkedIn</a>
-      </section>
+  <h2 className="text-3xl font-semibold mb-6">Get in Touch</h2>
+  <p className="text-gray-700 dark:text-gray-400 mb-4">📧 iarepsher@gmail.com</p>
+  <p className="text-gray-700 dark:text-gray-400 mb-4">📍 New York, NY</p>
+  <a href="https://linkedin.com/in/ianrepsher" className="text-blue-500 dark:text-blue-400 hover:underline">LinkedIn</a>
+  <div className="flex justify-center mt-6">
+    <div className="LI-profile-badge" 
+         data-version="v1" 
+         data-size="medium" 
+         data-locale="en_US" 
+         data-type="horizontal" 
+         data-theme="dark" 
+         data-vanity="ianrepsher">
+      <a className="LI-simple-link" href='https://www.linkedin.com/in/ianrepsher?trk=profile-badge'>Ian Repsher</a>
+    </div>
+  </div>
+</section>
+<script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
     </main>
   );
 }
