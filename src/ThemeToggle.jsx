@@ -13,14 +13,19 @@ export default function ThemeToggle() {
   const [dark, setDark] = useState(getInitialTheme);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark);
+    const root = document.documentElement;
+    if (dark) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
     localStorage.setItem('theme', dark ? 'dark' : 'light');
   }, [dark]);
 
   return (
     <button
       onClick={() => setDark(!dark)}
-      className="fixed top-4 right-4 z-50 bg-gray-200 text-black dark:bg-gray-800 dark:text-white px-4 py-2 rounded shadow"
+      className="fixed top-4 right-4 z-50 px-4 py-2 bg-white text-black dark:bg-black dark:text-white border border-gray-400 rounded"
     >
       {dark ? '☀️ Light' : '🌙 Dark'}
     </button>
