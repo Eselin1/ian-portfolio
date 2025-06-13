@@ -20,7 +20,7 @@ export default function Portfolio() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-lg md:text-2xl mt-4 text-gray-700 dark:text-gray-400"
         >
-          Full-Stack Developer | VoIP | Angular | React
+          Full-Stack Developer
         </motion.p>
       </section>
 

@@ -1,0 +1,45 @@
+# Dependency directories
+node_modules/
+
+# Vite build output
+dist/
+.vite/
+
+# Build artifacts (in case of TypeScript)
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor configs
+.vscode/
+.idea/
+*.sw?
+
+# OS/Terminal files
+*.log
+*.pid
+*.seed
+*.tgz
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Optional: Mac zip artifacts and temp
+*.zip
+*.tmp
+
+# Optional: Ignore storybook or testing outputs
+.storybook-out/
+coverage/
