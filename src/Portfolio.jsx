@@ -836,7 +836,7 @@ export default function EnhancedPortfolio() {
               className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center"
             >
               <h3 className="text-xl font-bold mb-2">Master of Science</h3>
-              <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">Computer Science</p>
+              <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">Computer Science: Cybersecurity</p>
               <p className="text-gray-700 dark:text-gray-300 mb-1">Georgia Institute of Technology</p>
               <p className="text-gray-600 dark:text-gray-400 text-sm">Expected 2027</p>
             </motion.div>
@@ -847,9 +847,9 @@ export default function EnhancedPortfolio() {
               className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center"
             >
               <h3 className="text-xl font-bold mb-2">Bachelor of Science</h3>
-              <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">Computer Science</p>
+              <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">Computer Science: Software Engineering</p>
               <p className="text-gray-700 dark:text-gray-300 mb-1">Southern New Hampshire University</p>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">2025</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Summer 2025</p>
             </motion.div>
           </motion.div>
         </div>
