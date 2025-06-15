@@ -5,19 +5,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Ian Repsher" />
-    <meta name="keywords" content="Ian Repsher, Full Stack Developer, React, Angular, VoIP, Portfolio" />
-    <meta name="description" content="Ian Repsher is a full-stack developer specializing in frontend development." />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Ian Repsher, Full Stack Developer, React Developer, Angular Developer, VoIP Developer, JavaScript, TypeScript, Java, Software Engineer, Web Developer, Portfolio" />
+    <meta name="description" content="Ian Repsher - Full-stack developer specializing in web applications. View my portfolio and projects." />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ianrepsher.com/" />
+    
     <title>Ian Repsher | Full-Stack Developer</title>
 
     <!-- OpenGraph / Social Sharing -->
     <meta property="og:title" content="Ian Repsher | Full-Stack Developer" />
-    <meta property="og:description" content="Full-stack developer. Check out my portfolio, projects, and contact details." />
+    <meta property="og:description" content="Full-stack developer specializing in web applications. View my portfolio and projects." />
     <meta property="og:image" content="https://ianrepsher.com/og-preview.jpg" />
     <meta property="og:url" content="https://ianrepsher.com/" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ian Repsher Portfolio" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ian Repsher | Full-Stack Developer" />
-    <meta name="twitter:description" content="Full-stack developer." />
+    <meta name="twitter:description" content="Full-stack developer specializing in web applications. View my portfolio and projects." />
+    <meta name="twitter:image" content="https://ianrepsher.com/og-preview.jpg" />
+    <meta name="twitter:creator" content="@ianrepsher" />
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -29,6 +40,50 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://vitals.vercel-analytics.com">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ian Repsher",
+      "jobTitle": "Full-Stack Developer",
+      "description": "Full-stack developer specializing in web applications",
+      "url": "https://ianrepsher.com",
+      "email": "iarepsher@gmail.com",
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Southern New Hampshire University",
+          "url": "https://www.snhu.edu"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Georgia Institute of Technology",
+          "url": "https://www.gatech.edu"
+        }
+      ],
+      "worksFor": {
+        "@type": "Organization",
+        "name": ""
+      },
+      "knowsAbout": [
+        "JavaScript",
+        "TypeScript",
+        "React",
+        "Angular",
+        "Java",
+        "VoIP Development",
+        "Full-Stack Development",
+        "Web Development"
+      ],
+      "sameAs": [
+        "https://linkedin.com/in/ianrepsher",
+        "https://github.com/Eselin1"
+      ]
+    }
+    </script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-X3BE535KJH"></script>
@@ -41,6 +96,11 @@
   </head>
 
   <body class="bg-black text-white">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-600 text-white p-2 rounded">
+      Skip to main content
+    </a>
+
     <!-- App Root -->
     <div id="root"></div>
 
