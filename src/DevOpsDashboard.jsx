@@ -45,7 +45,7 @@ export default function DevOpsDashboard() {
 
       {latestDeploy && (
         <div className="bg-gray-900 border border-gray-700 rounded-xl p-5">
-          <h3 className="text-xl font-bold mb-2 text-white">🚀 Latest Vercel Deployment</h3>
+          <h3 className="text-xl font-bold mb-2 text-white">Latest Deployment</h3>
           <p className="mb-1 text-white">
             <strong>{latestDeploy.meta?.githubCommitMessage || "No commit message"}</strong>
           </p>
