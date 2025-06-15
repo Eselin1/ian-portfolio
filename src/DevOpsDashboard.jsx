@@ -52,14 +52,6 @@ export default function DevOpsDashboard() {
           <p className="text-sm text-gray-400">
             Branch: {latestDeploy.meta?.githubCommitRef} — {new Date(latestDeploy.createdAt).toLocaleString()}
           </p>
-          <a
-            href={`https://${latestDeploy.url}`}
-            target="_blank"
-            rel="noreferrer"
-            className="text-blue-400 hover:underline"
-          >
-            View Deployment →
-          </a>
         </div>
       )}
     </section>
