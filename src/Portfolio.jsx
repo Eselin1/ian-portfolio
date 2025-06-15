@@ -866,7 +866,7 @@ export default function EnhancedPortfolio() {
             viewport={{ once: true }}
             className="text-gray-400"
           >
-            © 2025 Ian Repsher. Built with React, Tailwind CSS, and Framer Motion.
+            © 2025 Ian Repsher. Built with React, Tailwind CSS.
           </motion.p>
         </div>
       </footer>

@@ -4,13 +4,8 @@ export default function ThemeToggle() {
   const getSystemPref = () =>
     window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-  const getInitialTheme = () => {
-    const saved = localStorage.getItem('theme');
-    if (saved) return saved === 'dark';
-    return getSystemPref();
-  };
-
-  const [dark, setDark] = useState(getInitialTheme);
+  // Use system preference as default
+  const [dark, setDark] = useState(getSystemPref);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -19,13 +14,25 @@ export default function ThemeToggle() {
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
   }, [dark]);
+
+  // Listen for system theme changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => {
+      if (!dark && !light) { // Only auto-switch if user hasn't manually set preference
+        setDark(e.matches);
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   return (
     <button
       onClick={() => setDark(!dark)}
-      className="fixed top-4 right-4 z-50 px-4 py-2 bg-white text-black dark:bg-black dark:text-white border border-gray-400 rounded"
+      className="fixed top-4 right-4 z-50 px-4 py-2 bg-white text-black dark:bg-black dark:text-white border border-gray-400 rounded hover:scale-105 transition-transform"
     >
       {dark ? '☀️ Light' : '🌙 Dark'}
     </button>
