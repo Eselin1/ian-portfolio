@@ -471,7 +471,7 @@ const ProjectsSection = () => {
     {
       title: "Professional Portfolio Sites",
       tech: ["React", "Tailwind", "Framer Motion", "Vite"],
-      desc: "Modern, responsive portfolio websites with dark mode and smooth animations.",
+      desc: "Modern, responsive portfolio websites with smooth animations.",
       category: "Professional",
       demoUrl: "https://ianrepsher.com",
       githubUrl: "https://github.com/yourusername/portfolio",
