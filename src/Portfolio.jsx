@@ -674,13 +674,13 @@ export default function EnhancedPortfolio() {
           className="flex flex-wrap gap-4 justify-center mb-12"
         >
           <span className="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">
-            Angular Expert
+            Angular
           </span>
           <span className="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">
-            React Developer
+            React
           </span>
           <span className="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">
-            VoIP Specialist
+            VoIP
           </span>
         </motion.div>
 
