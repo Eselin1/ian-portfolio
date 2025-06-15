@@ -27,7 +27,7 @@ const Header = ({ activeSection, setActiveSection }) => {
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
     { id: 'experience', label: 'Experience' },
-    { id: 'blog', label: 'Blog' },
+    // { id: 'blog', label: 'Blog' },
     { id: 'contact', label: 'Contact' }
   ];
 
@@ -605,7 +605,7 @@ export default function EnhancedPortfolio() {
   // Track active section based on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'projects', 'experience', 'skills', 'blog', 'contact'];
+      const sections = ['home', 'projects', 'experience', 'skills', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -763,7 +763,7 @@ export default function EnhancedPortfolio() {
         </div>
       </section>
 
-      <BlogSection />
+      {/* <BlogSection /> */}
 
       {/* Experience Section */}
       <section id="experience" className="px-6 py-16">
