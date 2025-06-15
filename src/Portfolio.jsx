@@ -361,7 +361,7 @@ const ContactForm = () => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-white/70"
-                  placeholder="Your Name"
+                  placeholder="Name"
                 />
               </div>
               
@@ -377,7 +377,7 @@ const ContactForm = () => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-white/70"
-                  placeholder="your.email@example.com"
+                  placeholder="Email"
                 />
               </div>
               
@@ -393,7 +393,7 @@ const ContactForm = () => {
                   required
                   rows={4}
                   className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-white/70 resize-none"
-                  placeholder="Tell me about your project or opportunity..."
+                  placeholder="Something cool and interesting... I hope."
                 />
               </div>
               
@@ -463,8 +463,8 @@ const ProjectsSection = () => {
       tech: ["JavaScript", "React", "State Management"],
       desc: "Interactive game showcasing complex UI state management and user interaction patterns.",
       category: "Personal",
-      demoUrl: "https://your-game-demo.com",
-      githubUrl: "https://github.com/yourusername/exploration-game",
+      demoUrl: "https://game-demo.com",
+      githubUrl: "https://github.com/username/exploration-game",
       caseStudyUrl: null,
       status: "Demo Available"
     },
@@ -474,7 +474,7 @@ const ProjectsSection = () => {
       desc: "Modern, responsive portfolio websites with smooth animations.",
       category: "Professional",
       demoUrl: "https://ianrepsher.com",
-      githubUrl: "https://github.com/yourusername/portfolio",
+      githubUrl: "https://github.com/username/portfolio",
       caseStudyUrl: null,
       status: "Live"
     },
@@ -484,7 +484,7 @@ const ProjectsSection = () => {
       desc: "Automated tool for extracting and analyzing professional networking data.",
       category: "Personal",
       demoUrl: null, // CLI tool
-      githubUrl: "https://github.com/yourusername/linkedin-scraper",
+      githubUrl: "https://github.com/username/linkedin-scraper",
       caseStudyUrl: null,
       status: "Open Source"
     }
