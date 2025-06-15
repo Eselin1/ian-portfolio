@@ -44,3 +44,4 @@ Thumbs.db
 .storybook-out/
 coverage/
 .env.local
+.DS_Store
