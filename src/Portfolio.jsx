@@ -27,7 +27,6 @@ const Header = ({ activeSection, setActiveSection }) => {
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
     { id: 'experience', label: 'Experience' },
-    // { id: 'blog', label: 'Blog' },
     { id: 'contact', label: 'Contact' }
   ];
 
@@ -122,139 +121,6 @@ const Header = ({ activeSection, setActiveSection }) => {
     </motion.header>
   );
 };
-
-// Blog Component
-// const BlogSection = () => {
-//   const [selectedPost, setSelectedPost] = useState(null);
-  
-//   const blogPosts = [
-//     {
-//       id: 1,
-//       title: "Building Scalable VoIP Applications with Angular and Java",
-//       excerpt: "Deep dive into the architecture decisions and challenges faced while building enterprise-grade VoIP software.",
-//       date: "2024-12-15",
-//       readTime: "8 min read",
-//       tags: ["Angular", "Java", "VoIP", "Architecture"],
-//       content: "This is where the full blog post content would go. In a real implementation, you'd fetch this from a CMS or markdown files.",
-//       featured: true
-//     },
-//     {
-//       id: 2,
-//       title: "Modern React Patterns for Better Performance",
-//       excerpt: "Exploring advanced React patterns including compound components, render props, and custom hooks.",
-//       date: "2024-11-20",
-//       readTime: "6 min read",
-//       tags: ["React", "JavaScript", "Performance"],
-//       content: "Full content about React patterns and optimization techniques.",
-//       featured: false
-//     },
-//     {
-//       id: 3,
-//       title: "DevOps Best Practices for Small Teams",
-//       excerpt: "How to implement CI/CD pipelines and infrastructure automation without overwhelming your team.",
-//       date: "2024-10-10",
-//       readTime: "10 min read",
-//       tags: ["DevOps", "CI/CD", "AWS", "TeamCity"],
-//       content: "Comprehensive guide to DevOps practices for smaller development teams.",
-//       featured: false
-//     }
-//   ];
-
-//   return (
-//     <section id="blog" className="px-6 py-16 bg-gray-50 dark:bg-gray-900">
-//       <div className="max-w-6xl mx-auto">
-//         <motion.h2
-//           initial={{ opacity: 0, y: 20 }}
-//           whileInView={{ opacity: 1, y: 0 }}
-//           viewport={{ once: true }}
-//           className="text-4xl font-bold mb-12 text-center"
-//         >
-//           Blog & Insights
-//         </motion.h2>
-        
-//         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-//           {blogPosts.map((post) => (
-//             <motion.article
-//               key={post.id}
-//               initial={{ opacity: 0, y: 20 }}
-//               whileInView={{ opacity: 1, y: 0 }}
-//               viewport={{ once: true }}
-//               whileHover={{ y: -5 }}
-//               className={`bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer ${
-//                 post.featured ? 'ring-2 ring-blue-500' : ''
-//               }`}
-//               onClick={() => setSelectedPost(post)}
-//             >
-//               <div className="p-6">
-//                 {post.featured && (
-//                   <span className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-xs font-medium mb-3">
-//                     Featured
-//                   </span>
-//                 )}
-//                 <h3 className="text-xl font-bold mb-3 line-clamp-2">{post.title}</h3>
-//                 <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">{post.excerpt}</p>
-//                 <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500 mb-4">
-//                   <span>{new Date(post.date).toLocaleDateString()}</span>
-//                   <span>{post.readTime}</span>
-//                 </div>
-//                 <div className="flex flex-wrap gap-2">
-//                   {post.tags.map((tag) => (
-//                     <span
-//                       key={tag}
-//                       className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs"
-//                     >
-//                       {tag}
-//                     </span>
-//                   ))}
-//                 </div>
-//               </div>
-//             </motion.article>
-//           ))}
-//         </div>
-
-//         {/* Blog Post Modal */}
-//         <AnimatePresence>
-//           {selectedPost && (
-//             <motion.div
-//               initial={{ opacity: 0 }}
-//               animate={{ opacity: 1 }}
-//               exit={{ opacity: 0 }}
-//               className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-//               onClick={() => setSelectedPost(null)}
-//             >
-//               <motion.div
-//                 initial={{ scale: 0.9, opacity: 0 }}
-//                 animate={{ scale: 1, opacity: 1 }}
-//                 exit={{ scale: 0.9, opacity: 0 }}
-//                 className="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
-//                 onClick={(e) => e.stopPropagation()}
-//               >
-//                 <div className="p-6">
-//                   <div className="flex items-center justify-between mb-4">
-//                     <h2 className="text-2xl font-bold">{selectedPost.title}</h2>
-//                     <button
-//                       onClick={() => setSelectedPost(null)}
-//                       className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-//                     >
-//                       ✕
-//                     </button>
-//                   </div>
-//                   <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
-//                     <span>{new Date(selectedPost.date).toLocaleDateString()}</span>
-//                     <span>{selectedPost.readTime}</span>
-//                   </div>
-//                   <div className="prose dark:prose-invert max-w-none">
-//                     <p>{selectedPost.content}</p>
-//                   </div>
-//                 </div>
-//               </motion.div>
-//             </motion.div>
-//           )}
-//         </AnimatePresence>
-//       </div>
-//     </section>
-//   );
-// };
 
 // Contact Form Component
 const ContactForm = () => {
@@ -459,8 +325,8 @@ const ProjectsSection = () => {
       status: "Live in Production"
     },
     {
-      title: "Interactive Exploration Game",
-      tech: ["JavaScript", "React", "State Management"],
+      title: "Custom Rock, Paper, Scissors iOS Game",
+      tech: ["Swift", "SpriteKit", "Core Data"],
       desc: "Interactive game showcasing complex UI state management and user interaction patterns.",
       category: "Personal",
       demoUrl: "https://game-demo.com",
@@ -471,10 +337,10 @@ const ProjectsSection = () => {
     {
       title: "Professional Portfolio Sites",
       tech: ["React", "Tailwind", "Framer Motion", "Vite"],
-      desc: "Modern, responsive portfolio websites with smooth animations.",
+      desc: "Sites like this one.",
       category: "Professional",
       demoUrl: "https://ianrepsher.com",
-      githubUrl: "https://github.com/username/portfolio",
+      githubUrl: "https://github.com/Eselin1/ian-portfolio",
       caseStudyUrl: null,
       status: "Live"
     },
@@ -866,7 +732,7 @@ export default function EnhancedPortfolio() {
             viewport={{ once: true }}
             className="text-gray-400"
           >
-            © 2025 Ian Repsher. Built with React, Tailwind CSS.
+            © 2025 Ian Repsher.
           </motion.p>
         </div>
       </footer>
