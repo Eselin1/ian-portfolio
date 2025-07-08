@@ -319,9 +319,9 @@ const ProjectsSection = () => {
       tech: ["Angular", "Java", "WebSockets", "REST APIs"],
       desc: "Enterprise VoIP application with real-time communication features and event-driven architecture.",
       category: "Professional",
-      demoUrl: null, // Private/Enterprise project
+      demoUrl: "https://www.ecg.co/products/alpaca", // Private/Enterprise project
       githubUrl: null, // Private repo
-      caseStudyUrl: "#", // Could link to detailed case study
+      caseStudyUrl: null , // No public case study
       status: "Live in Production"
     },
     {
@@ -330,7 +330,7 @@ const ProjectsSection = () => {
       desc: "Interactive game showcasing complex UI state management and user interaction patterns.",
       category: "Personal",
       demoUrl: "https://game-demo.com",
-      githubUrl: "https://github.com/username/exploration-game",
+      githubUrl: "https://github.com/Eselin1/RPSMF",
       caseStudyUrl: null,
       status: "Demo Available"
     },
@@ -350,7 +350,7 @@ const ProjectsSection = () => {
       desc: "Automated tool for extracting and analyzing professional networking data.",
       category: "Personal",
       demoUrl: null, // CLI tool
-      githubUrl: "https://github.com/username/linkedin-scraper",
+      githubUrl: "https://github.com/Eselin1/linkedin-scraper",
       caseStudyUrl: null,
       status: "Open Source"
     }
@@ -420,7 +420,7 @@ const ProjectsSection = () => {
                       rel="noopener noreferrer"
                       className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                     >
-                      🚀 Live Demo
+                      Live Demo
                     </motion.a>
                   )}
                   {project.githubUrl && (
