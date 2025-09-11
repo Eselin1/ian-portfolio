@@ -31,7 +31,11 @@ export default function SkillsSection() {
               <h3 className="text-xl font-bold mb-4 capitalize text-center">{category === 'devops' ? 'DevOps' : category}</h3>
               <div className="flex flex-wrap gap-2 justify-center">
                 {skillList.map((skill, i) => (
-                  <motion.span key={i} whileHover={{ scale: 1.1 }} className="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-sm text-gray-800 dark:text-gray-200 cursor-default">
+                  <motion.span
+                    key={i}
+                    whileHover={{ scale: 1.05 }}
+                    className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 px-3 py-1 rounded-full text-sm text-gray-800 dark:text-gray-100 cursor-default hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+                  >
                     {skill}
                   </motion.span>
                 ))}
