@@ -10,7 +10,7 @@ dist/
 
 # Environment variables
 .env
-.env.*.local
+.env*.local
 
 # Log files
 npm-debug.log*
@@ -25,12 +25,14 @@ Thumbs.db
 .vscode/
 .idea/
 *.sw?
+*.iml
 
 # OS/Terminal files
 *.log
 *.pid
 *.seed
 *.tgz
+*.orig
 *.suo
 *.ntvs*
 *.njsproj
@@ -43,5 +45,5 @@ Thumbs.db
 # Optional: Ignore storybook or testing outputs
 .storybook-out/
 coverage/
-.env.local
-.DS_Store
+.vercel
+.eslintcache

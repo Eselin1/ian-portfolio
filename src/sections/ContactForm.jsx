@@ -1,22 +1,83 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', hp: '' });
+  const maxChars = 500;
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaReady, setCaptchaReady] = useState(false);
+  const turnstileRef = useRef(null);
+  const widgetIdRef = useRef(null);
+
+  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+  useEffect(() => {
+    if (!siteKey) return; // no widget without site key
+    const ensureScript = () => {
+      if (window.turnstile) return Promise.resolve();
+      return new Promise((resolve) => {
+        const s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=__tsOnLoad';
+        s.async = true;
+        s.defer = true;
+        window.__tsOnLoad = () => resolve();
+        document.head.appendChild(s);
+      });
+    };
+
+    ensureScript().then(() => {
+      setCaptchaReady(true);
+      if (turnstileRef.current && window.turnstile) {
+        widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
+          sitekey: siteKey,
+          theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+          callback: (token) => setCaptchaToken(token),
+          'error-callback': () => setCaptchaToken(''),
+          'expired-callback': () => setCaptchaToken(''),
+        });
+      }
+    });
+  }, [siteKey]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === 'message') {
+      setFormData({ ...formData, message: value.slice(0, maxChars) });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      if (siteKey && !captchaToken) {
+        setSubmitStatus('captcha');
+        return;
+      }
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, turnstileToken: captchaToken }),
+      });
+      if (res.status === 400) {
+        const data = await res.json().catch(() => ({}));
+        if (data?.error && String(data.error).startsWith('captcha')) {
+          setSubmitStatus('captcha');
+          return;
+        }
+      }
+      if (!res.ok) throw new Error('Request failed');
       setSubmitStatus('success');
       setFormData({ name: '', email: '', message: '' });
+      // Reset captcha after success
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+      }
+      setCaptchaToken('');
     } catch (error) {
       setSubmitStatus('error');
     } finally {
@@ -26,102 +87,90 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="px-6 py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-      <div className="max-w-4xl mx-auto">
-        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-4xl font-bold mb-8 text-center">
-          Let's Connect
-        </motion.h2>
-
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
-            <p className="text-xl mb-8 opacity-90">I'm always interested in new opportunities and collaborations</p>
-
-            <div className="space-y-4">
-              <motion.a whileHover={{ x: 5 }} href="mailto:iarepsher@gmail.com" className="flex items-center gap-3 text-lg">
-                📧 iarepsher@gmail.com
-              </motion.a>
-              <motion.a
-                whileHover={{ x: 5 }}
-                href="https://linkedin.com/in/ianrepsher"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-lg"
-              >
-                💼 LinkedIn Profile
-              </motion.a>
-              <motion.div whileHover={{ x: 5 }} className="flex items-center gap-3 text-lg">
-                📍 New York, NY
-              </motion.div>
+    <section id="contact" className="py-12 scroll-mt-20">
+      <div className="max-w-2xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-6"
+        >
+          <h2 className="text-3xl font-semibold mb-6 text-center">Let's Connect</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Honeypot field for bots */}
+            <input
+              type="text"
+              name="hp"
+              value={formData.hp}
+              onChange={handleInputChange}
+              autoComplete="off"
+              tabIndex={-1}
+              aria-hidden="true"
+              className="hidden"
+            />
+            <div>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                aria-label="Name"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/40 placeholder-gray-400"
+                placeholder="Name"
+              />
             </div>
-          </motion.div>
 
-          <motion.form initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} onSubmit={handleSubmit} className="bg-white/10 backdrop-blur-md rounded-2xl p-6">
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-white/70"
-                  placeholder="Name"
-                />
-              </div>
+            <div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                aria-label="Email"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/40 placeholder-gray-400"
+                placeholder="Email"
+              />
+            </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-white/70"
-                  placeholder="Email"
-                />
-              </div>
+            <div className="relative">
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+                rows={4}
+                aria-label="Message"
+                maxLength={maxChars}
+                className="w-full pr-12 px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/40 placeholder-gray-400 resize-none"
+                placeholder="Message"
+              />
+              <span className="pointer-events-none absolute bottom-2 right-3 text-xs text-gray-400 dark:text-zinc-400">{formData.message.length}/{maxChars}</span>
+            </div>
 
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={4}
-                  className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-white/70 resize-none"
-                  placeholder="Something cool and interesting... I hope."
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            <motion.button
+              type="submit"
+              disabled={isSubmitting}
+              whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                {isSubmitting ? (
-                  <>
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full" />
-                    Sending...
-                  </>
-                ) : (
-                  'Send Message'
-                )}
-              </motion.button>
+              {isSubmitting ? (
+                <>
+                  <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+                  Sending...
+                </>
+              ) : (
+                'Submit'
+              )}
+            </motion.button>
+
+            <div className="flex justify-center mt-2">
+              <div ref={turnstileRef} />
             </div>
 
             <AnimatePresence>
@@ -131,19 +180,24 @@ export default function ContactForm() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   className={`mt-4 p-3 rounded-lg text-center ${
-                    submitStatus === 'success' ? 'bg-green-500/20 text-green-100' : 'bg-red-500/20 text-red-100'
+                    submitStatus === 'success'
+                      ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-100'
+                      : submitStatus === 'captcha'
+                        ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-100'
+                        : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-100'
                   }`}
                 >
                   {submitStatus === 'success'
                     ? "Message sent successfully! I'll get back to you soon."
-                    : 'Something went wrong. Please try again or email me directly.'}
+                    : submitStatus === 'captcha'
+                      ? 'Please complete the verification and try again.'
+                      : 'Something went wrong. Please try again or email me directly.'}
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.form>
-        </div>
+          </form>
+        </motion.div>
       </div>
     </section>
   );
 }
-

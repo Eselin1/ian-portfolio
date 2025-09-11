@@ -7,8 +7,9 @@ export default function Header({ activeSection, setActiveSection }) {
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
     { id: 'experience', label: 'Experience' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'education', label: 'Education' },
     { id: 'contact', label: 'Contact' }
   ];
 
@@ -25,7 +26,7 @@ export default function Header({ activeSection, setActiveSection }) {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-40 border-b border-gray-200 dark:border-gray-800"
+      className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md z-40 border-b border-gray-200 dark:border-zinc-700"
     >
       <nav className="max-w-6xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -43,7 +44,7 @@ export default function Header({ activeSection, setActiveSection }) {
                 onClick={() => scrollToSection(item.id)}
                 className={`transition-colors ${
                   activeSection === item.id
-                    ? 'text-blue-600 dark:text-blue-400'
+                    ? 'text-purple-600 dark:text-purple-400'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
@@ -92,4 +93,3 @@ export default function Header({ activeSection, setActiveSection }) {
     </motion.header>
   );
 }
-

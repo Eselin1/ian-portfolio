@@ -14,7 +14,16 @@ export default defineConfig({
     }
   },
   server: {
-    port: 3000,
-    open: true
+    // Run Vite on 5173 to avoid clashing with `vercel dev` (3000)
+    port: 5173,
+    open: true,
+    proxy: {
+      // Proxy API requests to the local Vercel functions server
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 });

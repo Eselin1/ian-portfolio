@@ -14,10 +14,10 @@ const itemVariants = {
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="px-6 py-16 bg-gray-50 dark:bg-gray-900">
+    <section id="skills" className="py-12 scroll-mt-20">
       <div className="max-w-6xl mx-auto">
-        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-4xl font-bold mb-12 text-center">
-          Technical Skills
+        <motion.h2 initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl font-semibold mb-8">
+          Skills
         </motion.h2>
 
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -25,8 +25,8 @@ export default function SkillsSection() {
             <motion.div
               key={category}
               variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg p-6 transition-transform"
+              whileHover={{ scale: 1.02 }}
+              className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-6 transition-transform"
             >
               <h3 className="text-xl font-bold mb-4 capitalize text-center">{category === 'devops' ? 'DevOps' : category}</h3>
               <div className="flex flex-wrap gap-2 justify-center">
@@ -43,4 +43,3 @@ export default function SkillsSection() {
     </section>
   );
 }
-
