@@ -20,12 +20,11 @@ export default function BackToTop() {
     <button
       aria-label="Back to top"
       onClick={scrollTop}
-      className={`fixed bottom-6 right-6 z-40 transition-opacity duration-200 ${
+      className={`fixed right-4 sm:right-6 bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-40 transition-opacity duration-200 ${
         visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-      } bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full shadow-lg`}
+      } bg-purple-600 hover:bg-purple-700 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center`}
     >
       ↑
     </button>
   );
 }
-

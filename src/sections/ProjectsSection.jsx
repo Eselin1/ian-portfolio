@@ -26,7 +26,7 @@ export default function ProjectsSection() {
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
                       project.category === 'Professional'
-                        ? 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
                         : 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
                     }`}
                   >
@@ -40,7 +40,7 @@ export default function ProjectsSection() {
 
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tech.map((tech, i) => (
-                    <span key={i} className="bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full text-xs text-gray-800 dark:text-gray-200">
+                    <span key={i} className="bg-white dark:bg-zinc-900 px-2.5 py-1 rounded-full text-xs text-gray-800 dark:text-gray-200">
                       {tech}
                     </span>
                   ))}
@@ -66,7 +66,7 @@ export default function ProjectsSection() {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-purple-500/40 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                     >
                       💻 Code
                     </motion.a>
@@ -76,7 +76,7 @@ export default function ProjectsSection() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       href={project.caseStudyUrl}
-                      className="border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-purple-500/40 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                     >
                       📖 Case Study
                     </motion.a>
