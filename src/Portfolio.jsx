@@ -3,10 +3,8 @@ import LoadingSpinner from './components/LoadingSpinner';
 import StickyHeader from './components/StickyHeader';
 import Footer from './components/Footer';
 import Hero from './sections/Hero';
+import AboutSection from './sections/AboutSection';
 import ProjectsSection from './sections/ProjectsSection';
-import SkillsSection from './sections/SkillsSection';
-import ExperienceSection from './sections/ExperienceSection';
-import EducationSection from './sections/EducationSection';
 import ContactForm from './sections/ContactForm';
 import useActiveSection from './hooks/useActiveSection';
 import BackToTop from './components/BackToTop';
@@ -27,10 +25,8 @@ export default function Portfolio() {
       <Hero />
       <StickyHeader activeSection={activeSection} setActiveSection={setActiveSection} />
       <main className="max-w-6xl mx-auto px-6 lg:px-8 space-y-16 py-12">
+        <AboutSection />
         <ProjectsSection />
-        <ExperienceSection />
-        <SkillsSection />
-        <EducationSection />
         <ContactForm />
       </main>
       <Footer />

@@ -44,7 +44,7 @@ export default function Header({ activeSection, setActiveSection }) {
                 onClick={() => scrollToSection(item.id)}
                 className={`transition-colors ${
                   activeSection === item.id
-                    ? 'text-purple-600 dark:text-purple-400'
+                    ? 'text-green-600 dark:text-purple-400'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >

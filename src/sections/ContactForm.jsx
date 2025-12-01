@@ -6,13 +6,34 @@ export default function ContactForm() {
   const maxChars = 500;
   const [captchaToken, setCaptchaToken] = useState('');
   const [captchaReady, setCaptchaReady] = useState(false);
+  const [shouldLoadTurnstile, setShouldLoadTurnstile] = useState(false);
   const turnstileRef = useRef(null);
   const widgetIdRef = useRef(null);
+  const sectionRef = useRef(null);
 
   const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
+  // Lazy load Turnstile only when section comes into view
   useEffect(() => {
-    if (!siteKey) return; // no widget without site key
+    if (!sectionRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldLoadTurnstile(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '100px' }
+    );
+    
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!siteKey || !shouldLoadTurnstile) return;
+    
     const ensureScript = () => {
       if (window.turnstile) return Promise.resolve();
       return new Promise((resolve) => {
@@ -37,7 +58,7 @@ export default function ContactForm() {
         });
       }
     });
-  }, [siteKey]);
+  }, [siteKey, shouldLoadTurnstile]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
@@ -87,15 +108,26 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="py-12 scroll-mt-20">
+    <section id="contact" className="py-12 scroll-mt-20" ref={sectionRef}>
       <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-6"
+          className="p-6"
         >
-          <h2 className="text-3xl font-semibold mb-6 text-center">Let's Connect</h2>
+          <div className="mb-6 text-center">
+            <h2 className="text-3xl md:text-5xl font-semibold inline-block relative">
+              <span className="relative z-10">Let's Connect!</span>
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
+                className="absolute bottom-0 left-5 h-4 bg-green-600 dark:bg-purple-600 rounded z-0"
+              />
+            </h2>
+          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Honeypot field for bots */}
             <input
@@ -117,7 +149,7 @@ export default function ContactForm() {
                 onChange={handleInputChange}
                 required
                 aria-label="Name"
-                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/40 placeholder-gray-400"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/40 dark:focus:ring-purple-500/40 placeholder-gray-400"
                 placeholder="Name"
               />
             </div>
@@ -131,7 +163,7 @@ export default function ContactForm() {
                 onChange={handleInputChange}
                 required
                 aria-label="Email"
-                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/40 placeholder-gray-400"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/40 dark:focus:ring-purple-500/40 placeholder-gray-400"
                 placeholder="Email"
               />
             </div>
@@ -146,7 +178,7 @@ export default function ContactForm() {
                 rows={4}
                 aria-label="Message"
                 maxLength={maxChars}
-                className="w-full pr-12 px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/40 placeholder-gray-400 resize-none"
+                className="w-full pr-12 px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/40 dark:focus:ring-purple-500/40 placeholder-gray-400 resize-none"
                 placeholder="Message"
               />
               <span className="pointer-events-none absolute bottom-2 right-3 text-xs text-gray-400 dark:text-zinc-400">{formData.message.length}/{maxChars}</span>
@@ -157,7 +189,7 @@ export default function ContactForm() {
               disabled={isSubmitting}
               whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-purple-600 hover:border-green-600 dark:hover:border-purple-600 hover:text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
               {isSubmitting ? (
                 <>

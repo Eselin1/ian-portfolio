@@ -9,7 +9,7 @@ export default function useActiveSection(initial = 'home') {
   useEffect(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    const sectionIds = ['home', 'projects', 'experience', 'skills', 'education', 'contact'];
+    const sectionIds = ['home', 'about', 'projects', 'experience', 'contact'];
 
     const setupObserver = () => {
       const elements = sectionIds
