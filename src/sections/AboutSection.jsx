@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const containerVariants = {
@@ -27,6 +27,15 @@ const skillLogos = [
 ];
 
 export default function AboutSection() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <section id="about" className="py-12 scroll-mt-20">
       <div className="max-w-6xl mx-auto">
@@ -57,10 +66,10 @@ export default function AboutSection() {
         >
           {/* Circular Tech Icons */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="relative w-[800px] h-[800px]" style={{ marginLeft: '-80px' }}>
+            <div className="relative w-[800px] h-[800px] max-w-[95vw] max-h-[95vw]" style={{ marginLeft: '-80px' }}>
               {skillLogos.map((skill, index) => {
                 const angle = (index * 360) / skillLogos.length;
-                const radius = 380; // pixels from center
+                const radius = isMobile ? 180 : 380;
                 const x = Math.cos((angle - 90) * Math.PI / 180) * radius;
                 const y = Math.sin((angle - 90) * Math.PI / 180) * radius;
                 
@@ -89,10 +98,9 @@ export default function AboutSection() {
                       left: `calc(50% + ${x}px)`,
                       top: `calc(50% + ${y}px)`,
                       transform: 'translate(-50%, -50%)',
-                      zIndex: 20,
-                      width: '80px',
-                      height: '80px'
+                      zIndex: 20
                     }}
+                    className="w-16 h-16 md:w-20 md:h-20"
                     title={skill.name}
                   >
                     <img 
