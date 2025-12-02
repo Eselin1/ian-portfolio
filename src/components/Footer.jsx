@@ -29,7 +29,7 @@ export default function Footer() {
             </svg>
           </a>
           <a
-            href="mailto:iarepsher@gmail.com"
+            href="mailto:ian@repsher.dev"
             aria-label="Email"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
           >

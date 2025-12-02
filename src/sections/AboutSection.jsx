@@ -117,27 +117,48 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Mobile: Side Stack */}
-          <div className="md:hidden absolute left-0 top-0 bottom-0 flex flex-col justify-center gap-4 pl-4 pointer-events-none">
-            {skillLogos.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="pointer-events-auto w-12 h-12"
-                title={skill.name}
-              >
-                <img 
-                  src={skill.logo} 
-                  alt={skill.name}
-                  className="w-full h-full object-contain"
-                  style={{ imageRendering: 'auto' }}
-                  onError={(e) => console.error(`Failed to load: ${skill.name} - ${skill.logo}`)}
-                />
-              </motion.div>
-            ))}
+          {/* Mobile: Arch over profile */}
+          <div className="md:hidden absolute inset-0 pointer-events-none">
+            <div className="relative w-full h-full flex items-start justify-center pt-4">
+              <div className="relative w-[280px] h-[140px]">
+                {skillLogos.map((skill, index) => {
+                  // Create an arch from -90 to 90 degrees (180 degree arc above center)
+                  const totalIcons = skillLogos.length;
+                  const startAngle = -90;
+                  const endAngle = 90;
+                  const angleRange = endAngle - startAngle;
+                  const angle = startAngle + (index / (totalIcons - 1)) * angleRange;
+                  const radius = 140;
+                  const x = Math.cos(angle * Math.PI / 180) * radius;
+                  const y = Math.sin(angle * Math.PI / 180) * radius;
+                  
+                  return (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.05 }}
+                      viewport={{ once: true }}
+                      className="absolute pointer-events-auto w-10 h-10"
+                      style={{
+                        left: `calc(50% + ${x}px)`,
+                        top: `calc(100% + ${y}px)`,
+                        transform: 'translate(-50%, -50%)'
+                      }}
+                      title={skill.name}
+                    >
+                      <img 
+                        src={skill.logo} 
+                        alt={skill.name}
+                        className="w-full h-full object-contain"
+                        style={{ imageRendering: 'auto' }}
+                        onError={(e) => console.error(`Failed to load: ${skill.name} - ${skill.logo}`)}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           {/* Centered Description */}
