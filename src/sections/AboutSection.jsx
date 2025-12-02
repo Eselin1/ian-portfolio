@@ -28,6 +28,7 @@ const skillLogos = [
 
 export default function AboutSection() {
   const [isMobile, setIsMobile] = useState(false);
+  const [rotationOffset, setRotationOffset] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -35,6 +36,16 @@ export default function AboutSection() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    
+    const interval = setInterval(() => {
+      setRotationOffset(prev => (prev + 1) % skillLogos.length);
+    }, 2000); // Rotate every 2 seconds
+    
+    return () => clearInterval(interval);
+  }, [isMobile]);
 
   return (
     <section id="about" className="py-12 scroll-mt-20">
@@ -120,29 +131,34 @@ export default function AboutSection() {
           {/* Mobile: Arch over profile */}
           <div className="md:hidden absolute inset-0 pointer-events-none">
             <div className="relative w-full h-full flex items-start justify-center pt-4">
-              <div className="relative w-[280px] h-[140px]">
+              <div className="relative w-[320px] h-[160px]">
                 {skillLogos.map((skill, index) => {
-                  // Create an arch from -90 to 90 degrees (180 degree arc above center)
-                  const totalIcons = skillLogos.length;
-                  const startAngle = -90;
-                  const endAngle = 90;
-                  const angleRange = endAngle - startAngle;
-                  const angle = startAngle + (index / (totalIcons - 1)) * angleRange;
-                  const radius = 140;
+                  // Show only 6 icons at a time in rotation
+                  const visibleCount = 6;
+                  const adjustedIndex = (index - rotationOffset + skillLogos.length) % skillLogos.length;
+                  
+                  if (adjustedIndex >= visibleCount) return null;
+                  
+                  // Create an arch from 180 to 0 degrees (bottom-left to bottom-right)
+                  const startAngle = 180;
+                  const endAngle = 0;
+                  const angleRange = startAngle - endAngle;
+                  const angle = startAngle - (adjustedIndex / (visibleCount - 1)) * angleRange;
+                  const radius = 160;
                   const x = Math.cos(angle * Math.PI / 180) * radius;
                   const y = Math.sin(angle * Math.PI / 180) * radius;
                   
                   return (
                     <motion.div
-                      key={skill.name}
+                      key={`${skill.name}-${index}`}
                       initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.05 }}
-                      viewport={{ once: true }}
-                      className="absolute pointer-events-auto w-10 h-10"
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="absolute pointer-events-auto w-12 h-12"
                       style={{
                         left: `calc(50% + ${x}px)`,
-                        top: `calc(100% + ${y}px)`,
+                        top: `calc(50% + ${y}px)`,
                         transform: 'translate(-50%, -50%)'
                       }}
                       title={skill.name}
