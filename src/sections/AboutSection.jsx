@@ -63,7 +63,7 @@ export default function AboutSection() {
               whileInView={{ width: "100%" }}
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-              className="absolute bottom-0 left-5 h-4 bg-green-600 dark:bg-purple-600 rounded z-0"
+              className="absolute bottom-0 left-5 h-4 bg-red-600 dark:bg-purple-600 rounded z-0"
             />
           </h2>
         </motion.div>
@@ -220,7 +220,7 @@ export default function AboutSection() {
                 download
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 mt-6 border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-purple-600 hover:border-green-600 dark:hover:border-purple-600 hover:text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
+                className="inline-flex items-center gap-2 mt-6 border border-gray-300 dark:border-zinc-600 hover:bg-red-600 dark:hover:bg-purple-600 hover:border-red-600 dark:hover:border-purple-600 hover:text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />

@@ -8,6 +8,13 @@ export default function StickyHeader({ activeSection, setActiveSection }) {
     { id: 'contact', label: 'Contact' }
   ];
 
+  const lightActiveColors = {
+    home: 'bg-red-600',
+    about: 'bg-red-600',
+    projects: 'bg-green-600',
+    contact: 'bg-blue-600'
+  };
+
   const scrollToSection = (sectionId) => {
     const el = document.getElementById(sectionId);
     if (el) {
@@ -27,7 +34,7 @@ export default function StickyHeader({ activeSection, setActiveSection }) {
               onClick={() => scrollToSection(item.id)}
               className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
                 activeSection === item.id
-                  ? 'text-white bg-green-600 dark:bg-purple-600'
+                  ? `text-white ${lightActiveColors[item.id]} dark:bg-purple-600`
                   : 'text-gray-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800'
               }`}
             >

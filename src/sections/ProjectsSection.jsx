@@ -107,7 +107,7 @@ export default function ProjectsSection() {
                                 key={i}
                                 className={`${gesture.bg} flex items-center justify-center`}
                               >
-                                <div className="text-8xl">{gesture.emoji}</div>
+                                <div className={`text-8xl ${gesture.rotateClass || ''}`}>{gesture.emoji}</div>
                               </div>
                             ))}
                           </div>

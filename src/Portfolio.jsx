@@ -9,7 +9,7 @@ import ContactForm from './sections/ContactForm';
 import useActiveSection from './hooks/useActiveSection';
 import BackToTop from './components/BackToTop';
 
-export default function Portfolio() {
+export default function Portfolio({ onTemperatureChange }) {
   const [isLoading, setIsLoading] = useState(true);
   const [activeSection, setActiveSection] = useActiveSection('home');
 
@@ -22,7 +22,7 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-white text-black dark:bg-zinc-900 dark:text-zinc-100 font-sans">
-      <Hero />
+      <Hero onTemperatureChange={onTemperatureChange} />
       <StickyHeader activeSection={activeSection} setActiveSection={setActiveSection} />
       <main className="max-w-6xl mx-auto px-6 lg:px-8 space-y-16 py-12">
         <AboutSection />
@@ -30,7 +30,7 @@ export default function Portfolio() {
         <ContactForm />
       </main>
       <Footer />
-      <BackToTop />
+      <BackToTop activeSection={activeSection} />
     </div>
   );
 }
