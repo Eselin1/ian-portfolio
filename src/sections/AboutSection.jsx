@@ -130,7 +130,7 @@ export default function AboutSection() {
 
           {/* Mobile: Arch over profile */}
           <div className="md:hidden absolute inset-0 pointer-events-none">
-            <div className="relative w-full h-full flex items-start justify-center pt-4">
+            <div className="relative w-full h-full flex items-start justify-center pt-3">
               <div className="relative w-[340px] h-[340px]">
                 {skillLogos.map((skill, index) => {
                   // Calculate continuous rotation position for ferris wheel effect
