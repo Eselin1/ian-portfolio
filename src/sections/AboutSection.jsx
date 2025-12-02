@@ -130,7 +130,7 @@ export default function AboutSection() {
 
           {/* Mobile: Arch over profile */}
           <div className="md:hidden absolute inset-0 pointer-events-none">
-            <div className="relative w-full h-full flex items-start justify-center pt-8">
+            <div className="relative w-full h-full flex items-start justify-center pt-9">
               <div className="relative w-[340px] h-[340px]">
                 {skillLogos.map((skill, index) => {
                   // Calculate continuous rotation position for ferris wheel effect
@@ -152,17 +152,21 @@ export default function AboutSection() {
                   // Calculate opacity for smooth fade in/out at edges of rainbow
                   let opacity = 1;
                   
-                  // Fade in on the left side (180° to 210°)
-                  if (normalizedAngle >= 180 && normalizedAngle <= 210) {
-                    opacity = (normalizedAngle - 180) / 30;
+                  // Fade in on the left side (260° to 300°)
+                  if (normalizedAngle >= 260 && normalizedAngle <= 300) {
+                    opacity = (normalizedAngle - 260) / 40;
                   }
-                  // Fade out on the right side (330° to 360°)
-                  else if (normalizedAngle >= 330 && normalizedAngle <= 360) {
-                    opacity = (360 - normalizedAngle) / 30;
+                  // Before fade in zone, fully transparent
+                  else if (normalizedAngle > 180 && normalizedAngle < 260) {
+                    opacity = 0;
                   }
-                  // Also handle edge case near 0°
-                  else if (normalizedAngle >= 0 && normalizedAngle <= 30) {
-                    opacity = (30 - normalizedAngle) / 30;
+                  // Fade out on the right side (80° to 40°) - working backwards
+                  else if (normalizedAngle >= 40 && normalizedAngle <= 80) {
+                    opacity = (80 - normalizedAngle) / 40;
+                  }
+                  // After fade out zone, fully transparent
+                  else if (normalizedAngle > 0 && normalizedAngle < 40) {
+                    opacity = 0;
                   }
                   
                   return (
