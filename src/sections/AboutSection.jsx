@@ -41,8 +41,8 @@ export default function AboutSection() {
     if (!isMobile) return;
     
     const interval = setInterval(() => {
-      setRotationOffset(prev => (prev + 1) % skillLogos.length);
-    }, 2000); // Rotate every 2 seconds
+      setRotationOffset(prev => prev + 0.5); // Smooth continuous rotation
+    }, 50); // Update every 50ms for smooth animation
     
     return () => clearInterval(interval);
   }, [isMobile]);
@@ -130,36 +130,41 @@ export default function AboutSection() {
 
           {/* Mobile: Arch over profile */}
           <div className="md:hidden absolute inset-0 pointer-events-none">
-            <div className="relative w-full h-full flex items-start justify-center pt-4">
-              <div className="relative w-[320px] h-[160px]">
+            <div className="relative w-full h-full flex items-center justify-center">
+              <div className="relative w-[340px] h-[340px]">
                 {skillLogos.map((skill, index) => {
-                  // Show only 6 icons at a time in rotation
-                  const visibleCount = 6;
-                  const adjustedIndex = (index - rotationOffset + skillLogos.length) % skillLogos.length;
+                  // Calculate continuous rotation position for ferris wheel effect
+                  const totalIcons = skillLogos.length;
+                  const baseAngle = (index * 360) / totalIcons;
+                  const currentAngle = baseAngle + (rotationOffset * 360 / totalIcons);
                   
-                  if (adjustedIndex >= visibleCount) return null;
+                  // Show only icons in the visible arc (top half: -90 to 90 degrees)
+                  const normalizedAngle = ((currentAngle % 360) + 360) % 360;
+                  const isVisible = normalizedAngle >= 270 || normalizedAngle <= 90;
                   
-                  // Create an arch from 180 to 0 degrees (bottom-left to bottom-right)
-                  const startAngle = 180;
-                  const endAngle = 0;
-                  const angleRange = startAngle - endAngle;
-                  const angle = startAngle - (adjustedIndex / (visibleCount - 1)) * angleRange;
-                  const radius = 160;
-                  const x = Math.cos(angle * Math.PI / 180) * radius;
-                  const y = Math.sin(angle * Math.PI / 180) * radius;
+                  if (!isVisible) return null;
+                  
+                  const radius = 170;
+                  const x = Math.cos((currentAngle - 90) * Math.PI / 180) * radius;
+                  const y = Math.sin((currentAngle - 90) * Math.PI / 180) * radius;
+                  
+                  // Calculate opacity based on position (fade at edges)
+                  let opacity = 1;
+                  if (normalizedAngle > 270) {
+                    opacity = (360 - normalizedAngle) / 90;
+                  } else if (normalizedAngle < 90) {
+                    opacity = normalizedAngle >= 0 ? Math.min(normalizedAngle / 30, 1) : 0;
+                  }
                   
                   return (
-                    <motion.div
+                    <div
                       key={`${skill.name}-${index}`}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="absolute pointer-events-auto w-12 h-12"
+                      className="absolute pointer-events-auto w-12 h-12 transition-opacity duration-300"
                       style={{
                         left: `calc(50% + ${x}px)`,
                         top: `calc(50% + ${y}px)`,
-                        transform: 'translate(-50%, -50%)'
+                        transform: 'translate(-50%, -50%)',
+                        opacity: opacity
                       }}
                       title={skill.name}
                     >
@@ -170,7 +175,7 @@ export default function AboutSection() {
                         style={{ imageRendering: 'auto' }}
                         onError={(e) => console.error(`Failed to load: ${skill.name} - ${skill.logo}`)}
                       />
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
