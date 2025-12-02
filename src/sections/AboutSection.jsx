@@ -148,13 +148,13 @@ export default function AboutSection() {
                   // Calculate opacity for smooth fade in/out at edges of rainbow
                   let opacity = 1;
                   
-                  // Fade in on the left side (260° to 300°)
-                  if (normalizedAngle >= 260 && normalizedAngle <= 300) {
-                    opacity = (normalizedAngle - 260) / 40;
-                  }
-                  // Before fade in zone, don't render
-                  else if (normalizedAngle > 180 && normalizedAngle < 260) {
+                  // Before fade in zone (180° to 260°), don't render
+                  if (normalizedAngle >= 180 && normalizedAngle < 260) {
                     return null;
+                  }
+                  // Fade in on the left side (260° to 300°)
+                  else if (normalizedAngle >= 260 && normalizedAngle <= 300) {
+                    opacity = (normalizedAngle - 260) / 40;
                   }
                   // Fully visible from 300-360 and 0-40 (already opacity = 1)
                   // Fade out on the right side (40° to 95°)
