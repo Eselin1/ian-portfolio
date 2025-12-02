@@ -41,7 +41,7 @@ export default function AboutSection() {
     if (!isMobile) return;
     
     const interval = setInterval(() => {
-      setRotationOffset(prev => prev + 0.5); // Smooth continuous rotation
+      setRotationOffset(prev => prev + 0.1); // Much slower continuous rotation
     }, 50); // Update every 50ms for smooth animation
     
     return () => clearInterval(interval);
@@ -130,7 +130,7 @@ export default function AboutSection() {
 
           {/* Mobile: Arch over profile */}
           <div className="md:hidden absolute inset-0 pointer-events-none">
-            <div className="relative w-full h-full flex items-center justify-center">
+            <div className="relative w-full h-full flex items-start justify-center pt-8">
               <div className="relative w-[340px] h-[340px]">
                 {skillLogos.map((skill, index) => {
                   // Calculate continuous rotation position for ferris wheel effect
