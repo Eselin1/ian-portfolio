@@ -130,7 +130,7 @@ export default function AboutSection() {
 
           {/* Mobile: Arch over profile */}
           <div className="md:hidden absolute inset-0 pointer-events-none">
-            <div className="relative w-full h-full flex items-start justify-center pt-8">
+            <div className="relative w-full h-full flex items-start justify-center" style={{ paddingTop: '22px' }}>
               <div className="relative w-[340px] h-[340px]">
                 {skillLogos.map((skill, index) => {
                   // Calculate continuous rotation position for ferris wheel effect
@@ -148,21 +148,30 @@ export default function AboutSection() {
                   const x = Math.cos((currentAngle - 90) * Math.PI / 180) * radius;
                   const y = Math.sin((currentAngle - 90) * Math.PI / 180) * radius;
                   
-                  // Calculate opacity based on position (fade at edges)
+                  // Calculate opacity and vertical offset based on position (rise/fall at edges)
                   let opacity = 1;
+                  let verticalOffset = 0;
+                  
+                  // Left edge: rising from invisible line (270° to 360°)
                   if (normalizedAngle > 270) {
-                    opacity = (360 - normalizedAngle) / 90;
-                  } else if (normalizedAngle < 90) {
-                    opacity = normalizedAngle >= 0 ? Math.min(normalizedAngle / 30, 1) : 0;
+                    const progress = (360 - normalizedAngle) / 90; // 0 to 1
+                    opacity = progress;
+                    verticalOffset = (1 - progress) * 60; // Rise up from 60px below
+                  } 
+                  // Right edge: falling back into invisible line (0° to 90°)
+                  else if (normalizedAngle < 90) {
+                    const progress = normalizedAngle / 90; // 0 to 1
+                    opacity = 1 - progress;
+                    verticalOffset = progress * 60; // Fall down 60px
                   }
                   
                   return (
                     <div
                       key={`${skill.name}-${index}`}
-                      className="absolute pointer-events-auto w-12 h-12 transition-opacity duration-300"
+                      className="absolute pointer-events-auto w-12 h-12 transition-all duration-200"
                       style={{
                         left: `calc(50% + ${x}px)`,
-                        top: `calc(50% + ${y}px)`,
+                        top: `calc(50% + ${y + verticalOffset}px)`,
                         transform: 'translate(-50%, -50%)',
                         opacity: opacity
                       }}
