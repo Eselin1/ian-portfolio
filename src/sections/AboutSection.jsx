@@ -140,10 +140,6 @@ export default function AboutSection() {
                   
                   // Rainbow arc: show only icons from 180° (left) to 0° (right)
                   const normalizedAngle = ((currentAngle % 360) + 360) % 360;
-                  const isVisible = normalizedAngle >= 180 || normalizedAngle <= 0;
-                  
-                  // Only show icons in the top arc (180° to 360°/0°)
-                  if (normalizedAngle > 90 && normalizedAngle < 180) return null;
                   
                   const radius = 170;
                   const x = Math.cos((currentAngle - 90) * Math.PI / 180) * radius;
@@ -169,6 +165,9 @@ export default function AboutSection() {
                   else if (normalizedAngle > 95 && normalizedAngle < 180) {
                     opacity = 0;
                   }
+                  
+                  // Don't render if opacity is 0 (performance optimization)
+                  if (opacity === 0) return null;
                   
                   return (
                     <div
