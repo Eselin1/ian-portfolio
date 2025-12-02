@@ -130,7 +130,7 @@ export default function AboutSection() {
 
           {/* Mobile: Arch over profile */}
           <div className="md:hidden absolute inset-0 pointer-events-none">
-            <div className="relative w-full h-full flex items-start justify-center pt-9">
+            <div className="relative w-full h-full flex items-start justify-center pt-10">
               <div className="relative w-[340px] h-[340px]">
                 {skillLogos.map((skill, index) => {
                   // Calculate continuous rotation position for ferris wheel effect
@@ -160,12 +160,13 @@ export default function AboutSection() {
                   else if (normalizedAngle > 180 && normalizedAngle < 260) {
                     opacity = 0;
                   }
-                  // Fade out on the right side (80° to 40°) - working backwards
-                  else if (normalizedAngle >= 40 && normalizedAngle <= 80) {
-                    opacity = (80 - normalizedAngle) / 40;
+                  // Fully visible from 300-360 and 0-40 (already opacity = 1)
+                  // Fade out on the right side (40° to 95°)
+                  else if (normalizedAngle >= 40 && normalizedAngle <= 95) {
+                    opacity = (95 - normalizedAngle) / 55;
                   }
                   // After fade out zone, fully transparent
-                  else if (normalizedAngle > 0 && normalizedAngle < 40) {
+                  else if (normalizedAngle > 95 && normalizedAngle < 180) {
                     opacity = 0;
                   }
                   
