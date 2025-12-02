@@ -130,7 +130,7 @@ export default function AboutSection() {
 
           {/* Mobile: Arch over profile */}
           <div className="md:hidden absolute inset-0 pointer-events-none">
-            <div className="relative w-full h-full flex items-start justify-center" style={{ paddingTop: '22px' }}>
+            <div className="relative w-full h-full flex items-start justify-center pt-8">
               <div className="relative w-[340px] h-[340px]">
                 {skillLogos.map((skill, index) => {
                   // Calculate continuous rotation position for ferris wheel effect
@@ -138,40 +138,40 @@ export default function AboutSection() {
                   const baseAngle = (index * 360) / totalIcons;
                   const currentAngle = baseAngle + (rotationOffset * 360 / totalIcons);
                   
-                  // Show only icons in the visible arc (top half: -90 to 90 degrees)
+                  // Rainbow arc: show only icons from 180° (left) to 0° (right)
                   const normalizedAngle = ((currentAngle % 360) + 360) % 360;
-                  const isVisible = normalizedAngle >= 270 || normalizedAngle <= 90;
+                  const isVisible = normalizedAngle >= 180 || normalizedAngle <= 0;
                   
-                  if (!isVisible) return null;
+                  // Only show icons in the top arc (180° to 360°/0°)
+                  if (normalizedAngle > 90 && normalizedAngle < 180) return null;
                   
                   const radius = 170;
                   const x = Math.cos((currentAngle - 90) * Math.PI / 180) * radius;
                   const y = Math.sin((currentAngle - 90) * Math.PI / 180) * radius;
                   
-                  // Calculate opacity and vertical offset based on position (rise/fall at edges)
+                  // Calculate opacity for smooth fade in/out at edges of rainbow
                   let opacity = 1;
-                  let verticalOffset = 0;
                   
-                  // Left edge: rising from invisible line (270° to 360°)
-                  if (normalizedAngle > 270) {
-                    const progress = (360 - normalizedAngle) / 90; // 0 to 1
-                    opacity = progress;
-                    verticalOffset = (1 - progress) * 60; // Rise up from 60px below
-                  } 
-                  // Right edge: falling back into invisible line (0° to 90°)
-                  else if (normalizedAngle < 90) {
-                    const progress = normalizedAngle / 90; // 0 to 1
-                    opacity = 1 - progress;
-                    verticalOffset = progress * 60; // Fall down 60px
+                  // Fade in on the left side (180° to 210°)
+                  if (normalizedAngle >= 180 && normalizedAngle <= 210) {
+                    opacity = (normalizedAngle - 180) / 30;
+                  }
+                  // Fade out on the right side (330° to 360°)
+                  else if (normalizedAngle >= 330 && normalizedAngle <= 360) {
+                    opacity = (360 - normalizedAngle) / 30;
+                  }
+                  // Also handle edge case near 0°
+                  else if (normalizedAngle >= 0 && normalizedAngle <= 30) {
+                    opacity = (30 - normalizedAngle) / 30;
                   }
                   
                   return (
                     <div
                       key={`${skill.name}-${index}`}
-                      className="absolute pointer-events-auto w-12 h-12 transition-all duration-200"
+                      className="absolute pointer-events-auto w-12 h-12 transition-opacity duration-300"
                       style={{
                         left: `calc(50% + ${x}px)`,
-                        top: `calc(50% + ${y + verticalOffset}px)`,
+                        top: `calc(50% + ${y}px)`,
                         transform: 'translate(-50%, -50%)',
                         opacity: opacity
                       }}
