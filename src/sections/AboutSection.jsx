@@ -64,12 +64,13 @@ export default function AboutSection() {
           viewport={{ once: true }}
           className="relative flex items-center justify-center min-h-[800px]"
         >
-          {/* Circular Tech Icons */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="relative w-[800px] h-[800px] max-w-[95vw] max-h-[95vw]" style={{ marginLeft: '-80px' }}>
+          {/* Desktop: Circular Tech Icons */}
+          <div className="hidden md:block absolute inset-0 pointer-events-none">
+            <div className="relative w-full h-full flex items-center justify-center" style={{ marginLeft: '-40px' }}>
+              <div className="relative w-[800px] h-[800px]">
               {skillLogos.map((skill, index) => {
                 const angle = (index * 360) / skillLogos.length;
-                const radius = isMobile ? 180 : 380;
+                const radius = 380;
                 const x = Math.cos((angle - 90) * Math.PI / 180) * radius;
                 const y = Math.sin((angle - 90) * Math.PI / 180) * radius;
                 
@@ -93,14 +94,13 @@ export default function AboutSection() {
                     }}
                     whileHover={{ scale: 1.2 }}
                     viewport={{ once: true, amount: 0.2, margin: "200px 0px 0px 0px" }}
-                    className="absolute group pointer-events-auto"
+                    className="absolute group pointer-events-auto w-20 h-20"
                     style={{
                       left: `calc(50% + ${x}px)`,
                       top: `calc(50% + ${y}px)`,
                       transform: 'translate(-50%, -50%)',
                       zIndex: 20
                     }}
-                    className="w-16 h-16 md:w-20 md:h-20"
                     title={skill.name}
                   >
                     <img 
@@ -113,13 +113,37 @@ export default function AboutSection() {
                   </motion.div>
                 );
               })}
+              </div>
             </div>
+          </div>
+
+          {/* Mobile: Side Stack */}
+          <div className="md:hidden absolute left-0 top-0 bottom-0 flex flex-col justify-center gap-4 pl-4 pointer-events-none">
+            {skillLogos.map((skill, index) => (
+              <motion.div
+                key={skill.name}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+                viewport={{ once: true }}
+                className="pointer-events-auto w-12 h-12"
+                title={skill.name}
+              >
+                <img 
+                  src={skill.logo} 
+                  alt={skill.name}
+                  className="w-full h-full object-contain"
+                  style={{ imageRendering: 'auto' }}
+                  onError={(e) => console.error(`Failed to load: ${skill.name} - ${skill.logo}`)}
+                />
+              </motion.div>
+            ))}
           </div>
 
           {/* Centered Description */}
           <motion.div 
             variants={itemVariants} 
-            className="relative z-10 max-w-xl mx-auto px-4"
+            className="relative z-10 max-w-xl mx-auto px-4 md:px-4"
           >
             <div className="space-y-4 text-gray-700 dark:text-gray-300 text-center">
               <div className="flex justify-center mb-6">
