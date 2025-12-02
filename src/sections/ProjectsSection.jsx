@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RPSMFGame from '../components/RPSMFGame';
 
@@ -30,6 +30,23 @@ const projects = [
 export default function ProjectsSection() {
   const [expandedProject, setExpandedProject] = useState(null); // Default to hidden
   const [showRules, setShowRules] = useState(false);
+  const demoRefs = useRef({});
+
+  const handleDemoToggle = (projectId) => {
+    const isCurrentlyExpanded = expandedProject === projectId;
+    setExpandedProject(isCurrentlyExpanded ? null : projectId);
+    
+    // On mobile/tablet (< 1024px), scroll to demo after expanding
+    if (!isCurrentlyExpanded && window.innerWidth < 1024) {
+      // Small delay to allow the demo to render first
+      setTimeout(() => {
+        demoRefs.current[projectId]?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center'
+        });
+      }, 100);
+    }
+  };
 
   return (
     <section id="projects" className="py-12 scroll-mt-20">
@@ -69,7 +86,10 @@ export default function ProjectsSection() {
               >
                 <div className={`grid lg:grid-cols-2 gap-8 items-start`}>
                   {/* Demo/Visual Side */}
-                  <div className={`${isEven ? 'lg:order-1' : 'lg:order-2'} relative`}>
+                  <div 
+                    ref={(el) => demoRefs.current[project.id] = el}
+                    className={`${isEven ? 'lg:order-1' : 'lg:order-2'} relative`}
+                  >
                     {project.hasDemo && isExpanded ? (
                       <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl overflow-hidden h-[400px] border border-gray-300 dark:border-zinc-600">
                         <DemoComponent isExpanding={isExpanded} showRules={showRules} />
@@ -152,7 +172,7 @@ export default function ProjectsSection() {
                           <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => setExpandedProject(isExpanded ? null : project.id)}
+                            onClick={() => handleDemoToggle(project.id)}
                             className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-purple-600 hover:border-green-600 dark:hover:border-purple-600 hover:text-white rounded-lg font-semibold transition-colors shadow-lg w-[180px]"
                           >
                             {isExpanded ? '■ Stop Demo' : '▶ Try Live Demo'}

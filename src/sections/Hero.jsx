@@ -17,7 +17,7 @@ export default function Hero() {
         transition={{ duration: 0.6, delay: 0.1 }}
         className="text-sm uppercase tracking-widest text-green-600 dark:text-purple-400 mb-3"
       >
-        Hello world
+        Hello, World
       </motion.p>
 
       <motion.h1
@@ -35,7 +35,7 @@ export default function Hero() {
         transition={{ duration: 0.8, delay: 0.35 }}
         className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-10"
       >
-        Software Engineer
+        Full Stack Developer
       </motion.p>
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} className="flex gap-4">
