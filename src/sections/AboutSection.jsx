@@ -41,7 +41,7 @@ export default function AboutSection() {
     if (!isMobile) return;
     
     const interval = setInterval(() => {
-      setRotationOffset(prev => prev + 0.1); // Much slower continuous rotation
+      setRotationOffset(prev => prev + 0.05); // Even slower for smoother fades
     }, 50); // Update every 50ms for smooth animation
     
     return () => clearInterval(interval);
@@ -152,32 +152,30 @@ export default function AboutSection() {
                   if (normalizedAngle >= 260 && normalizedAngle <= 300) {
                     opacity = (normalizedAngle - 260) / 40;
                   }
-                  // Before fade in zone, fully transparent
+                  // Before fade in zone, don't render
                   else if (normalizedAngle > 180 && normalizedAngle < 260) {
-                    opacity = 0;
+                    return null;
                   }
                   // Fully visible from 300-360 and 0-40 (already opacity = 1)
                   // Fade out on the right side (40° to 95°)
                   else if (normalizedAngle >= 40 && normalizedAngle <= 95) {
                     opacity = (95 - normalizedAngle) / 55;
                   }
-                  // After fade out zone, fully transparent
+                  // After fade out zone, don't render
                   else if (normalizedAngle > 95 && normalizedAngle < 180) {
-                    opacity = 0;
+                    return null;
                   }
-                  
-                  // Don't render if opacity is 0 (performance optimization)
-                  if (opacity === 0) return null;
                   
                   return (
                     <div
                       key={`${skill.name}-${index}`}
-                      className="absolute pointer-events-auto w-12 h-12 transition-opacity duration-300"
+                      className="absolute pointer-events-auto w-12 h-12"
                       style={{
                         left: `calc(50% + ${x}px)`,
                         top: `calc(50% + ${y}px)`,
                         transform: 'translate(-50%, -50%)',
-                        opacity: opacity
+                        opacity: opacity,
+                        transition: 'opacity 0.1s linear'
                       }}
                       title={skill.name}
                     >
