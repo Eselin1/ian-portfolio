@@ -247,7 +247,7 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
         {/* Score Counter - Center */}
         <div className="flex items-center gap-3">
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600 dark:text-purple-600">{playerScore}</div>
+            <div className="text-2xl font-bold text-green-600 dark:text-orange-600">{playerScore}</div>
             <div className="text-xs text-gray-600 dark:text-gray-400">You</div>
             {!playerMiddleFingerAvailable && (
               <div className="text-xs text-red-500">🚫</div>
@@ -302,7 +302,7 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-green-500 to-blue-600 dark:from-purple-500 dark:to-blue-600 p-6"
+            className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-green-500 to-blue-600 dark:from-orange-500 dark:to-blue-600 p-6"
           >
             <div className="text-6xl mb-4">
               {winner === 'player' ? '🎉' : '🤖'}
@@ -314,7 +314,7 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={resetGame}
-              className="bg-white text-green-600 dark:text-purple-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-lg"
+              className="bg-white text-green-600 dark:text-orange-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-lg"
             >
               Play Again
             </motion.button>

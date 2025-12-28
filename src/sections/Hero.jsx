@@ -208,7 +208,7 @@ export default function Hero({ onTemperatureChange }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="absolute inset-0 z-0 bg-gradient-to-b from-green-600/5 dark:from-purple-600/5 via-transparent to-transparent pointer-events-none"
+        className="absolute inset-0 z-0 bg-gradient-to-b from-green-600/5 dark:from-orange-600/5 via-transparent to-transparent pointer-events-none"
       />
 
       {/* Day sky tooltip overlay */}
@@ -233,7 +233,7 @@ export default function Hero({ onTemperatureChange }) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="relative z-10 text-sm uppercase tracking-widest text-green-600 dark:text-purple-400 mb-3 transition-colors duration-[5500ms] pointer-events-none"
+        className="relative z-10 text-sm uppercase tracking-widest text-green-600 dark:text-orange-400 mb-3 transition-colors duration-[5500ms] pointer-events-none"
       >
         Hello, World
       </motion.p>
@@ -261,7 +261,7 @@ export default function Hero({ onTemperatureChange }) {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
-          className="border border-gray-400 dark:border-zinc-600 hover:bg-red-600 dark:hover:bg-purple-600 hover:border-red-600 dark:hover:border-purple-600 hover:text-white text-gray-900 dark:text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300 w-[180px]"
+          className="border border-gray-400 dark:border-zinc-600 hover:bg-red-600 dark:hover:bg-orange-600 hover:border-red-600 dark:hover:border-orange-600 hover:text-white text-gray-900 dark:text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300 w-[180px]"
         >
           View My Work
         </motion.button>
@@ -269,7 +269,7 @@ export default function Hero({ onTemperatureChange }) {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-          className="border border-gray-400 dark:border-zinc-600 hover:bg-red-600 dark:hover:bg-purple-600 hover:border-red-600 dark:hover:border-purple-600 hover:text-white text-gray-900 dark:text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300 w-[180px]"
+          className="border border-gray-400 dark:border-zinc-600 hover:bg-red-600 dark:hover:bg-orange-600 hover:border-red-600 dark:hover:border-orange-600 hover:text-white text-gray-900 dark:text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300 w-[180px]"
         >
           Get in Touch
         </motion.button>

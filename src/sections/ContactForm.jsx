@@ -124,7 +124,7 @@ export default function ContactForm() {
                 whileInView={{ width: "100%" }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-                className="absolute bottom-0 left-5 h-4 bg-blue-600 dark:bg-purple-600 rounded z-0"
+                className="absolute bottom-0 left-5 h-4 bg-blue-600 dark:bg-orange-600 rounded z-0"
               />
             </h2>
           </div>
@@ -149,7 +149,7 @@ export default function ContactForm() {
                 onChange={handleInputChange}
                 required
                 aria-label="Name"
-                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-purple-500/40 placeholder-gray-400"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-orange-500/40 placeholder-gray-400"
                 placeholder="Name"
               />
             </div>
@@ -163,7 +163,7 @@ export default function ContactForm() {
                 onChange={handleInputChange}
                 required
                 aria-label="Email"
-                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-purple-500/40 placeholder-gray-400"
+                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-orange-500/40 placeholder-gray-400"
                 placeholder="Email"
               />
             </div>
@@ -178,7 +178,7 @@ export default function ContactForm() {
                 rows={4}
                 aria-label="Message"
                 maxLength={maxChars}
-                className="w-full pr-12 px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-purple-500/40 placeholder-gray-400 resize-none"
+                className="w-full pr-12 px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-orange-500/40 placeholder-gray-400 resize-none"
                 placeholder="Message"
               />
               <span className="pointer-events-none absolute bottom-2 right-3 text-xs text-gray-400 dark:text-zinc-400">{formData.message.length}/{maxChars}</span>
@@ -189,7 +189,7 @@ export default function ContactForm() {
               disabled={isSubmitting}
               whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full border border-gray-300 dark:border-zinc-600 hover:bg-blue-600 dark:hover:bg-purple-600 hover:border-blue-600 dark:hover:border-purple-600 hover:text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full border border-gray-300 dark:border-zinc-600 hover:bg-blue-600 dark:hover:bg-orange-600 hover:border-blue-600 dark:hover:border-orange-600 hover:text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
               {isSubmitting ? (
                 <>

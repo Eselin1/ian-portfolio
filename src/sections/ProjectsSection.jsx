@@ -64,7 +64,7 @@ export default function ProjectsSection() {
               whileInView={{ width: "100%" }}
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-              className="absolute bottom-0 left-5 h-4 bg-green-600 dark:bg-purple-600 rounded z-0"
+              className="absolute bottom-0 left-5 h-4 bg-green-600 dark:bg-orange-600 rounded z-0"
             />
           </h2>
         </motion.div>
@@ -173,7 +173,7 @@ export default function ProjectsSection() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleDemoToggle(project.id)}
-                            className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-purple-600 hover:border-green-600 dark:hover:border-purple-600 hover:text-white rounded-lg font-semibold transition-colors shadow-lg w-[180px]"
+                            className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-orange-600 hover:border-green-600 dark:hover:border-orange-600 hover:text-white rounded-lg font-semibold transition-colors shadow-lg w-[180px]"
                           >
                             {isExpanded ? '■ Stop Demo' : '▶ Try Live Demo'}
                           </motion.button>
@@ -182,7 +182,7 @@ export default function ProjectsSection() {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                               onClick={() => setShowRules(!showRules)}
-                              className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-purple-600 hover:border-green-600 dark:hover:border-purple-600 hover:text-white rounded-lg font-semibold transition-colors shadow-lg"
+                              className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-orange-600 hover:border-green-600 dark:hover:border-orange-600 hover:text-white rounded-lg font-semibold transition-colors shadow-lg"
                             >
                               {showRules ? 'Hide Rules' : 'Show Rules'}
                             </motion.button>

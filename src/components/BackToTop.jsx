@@ -42,8 +42,8 @@ export default function BackToTop({ activeSection = 'home' }) {
   const { base, hover } = lightSectionColors[activeSection] || lightSectionColors.default;
   const lightColor = base;
   const lightHoverColor = hover;
-  const darkColor = '#7c3aed'; // purple-600
-  const darkHoverColor = '#6d28d9'; // purple-700
+  const darkColor = '#ea580c'; // orange-600
+  const darkHoverColor = '#c2410c'; // orange-700
   const buttonColor = isDarkMode ? darkColor : lightColor;
   const buttonHoverColor = isDarkMode ? darkHoverColor : lightHoverColor;
 

@@ -34,7 +34,7 @@ export default function StickyHeader({ activeSection, setActiveSection }) {
               onClick={() => scrollToSection(item.id)}
               className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
                 activeSection === item.id
-                  ? `text-white ${lightActiveColors[item.id]} dark:bg-purple-600`
+                  ? `text-white ${lightActiveColors[item.id]} dark:bg-orange-600`
                   : 'text-gray-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800'
               }`}
             >

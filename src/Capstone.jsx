@@ -81,7 +81,7 @@ export default function Capstone() {
   return (
     <div className="min-h-screen bg-white text-black dark:bg-zinc-900 dark:text-zinc-100 font-sans">
       <header className="max-w-6xl mx-auto px-6 lg:px-8 pt-24 pb-10">
-        <p className="text-sm uppercase tracking-widest text-green-700 dark:text-purple-400 mb-4">
+        <p className="text-sm uppercase tracking-widest text-green-700 dark:text-orange-400 mb-4">
           CS 499 Capstone
         </p>
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
@@ -95,28 +95,28 @@ export default function Capstone() {
           <button
             type="button"
             onClick={() => handleScroll('self-assessment')}
-            className="px-5 py-2.5 border border-gray-300 dark:border-zinc-600 rounded-lg font-medium hover:bg-green-600 dark:hover:bg-purple-600 hover:text-white hover:border-transparent transition-colors"
+            className="px-5 py-2.5 border border-gray-300 dark:border-zinc-600 rounded-lg font-medium hover:bg-green-600 dark:hover:bg-orange-600 hover:text-white hover:border-transparent transition-colors"
           >
             Self-Assessment
           </button>
           <button
             type="button"
             onClick={() => handleScroll('code-review')}
-            className="px-5 py-2.5 border border-gray-300 dark:border-zinc-600 rounded-lg font-medium hover:bg-green-600 dark:hover:bg-purple-600 hover:text-white hover:border-transparent transition-colors"
+            className="px-5 py-2.5 border border-gray-300 dark:border-zinc-600 rounded-lg font-medium hover:bg-green-600 dark:hover:bg-orange-600 hover:text-white hover:border-transparent transition-colors"
           >
             Code Review
           </button>
           <button
             type="button"
             onClick={() => handleScroll('artifacts')}
-            className="px-5 py-2.5 border border-gray-300 dark:border-zinc-600 rounded-lg font-medium hover:bg-green-600 dark:hover:bg-purple-600 hover:text-white hover:border-transparent transition-colors"
+            className="px-5 py-2.5 border border-gray-300 dark:border-zinc-600 rounded-lg font-medium hover:bg-green-600 dark:hover:bg-orange-600 hover:text-white hover:border-transparent transition-colors"
           >
             Artifacts
           </button>
           <button
             type="button"
             onClick={() => handleScroll('outcomes')}
-            className="px-5 py-2.5 border border-gray-300 dark:border-zinc-600 rounded-lg font-medium hover:bg-green-600 dark:hover:bg-purple-600 hover:text-white hover:border-transparent transition-colors"
+            className="px-5 py-2.5 border border-gray-300 dark:border-zinc-600 rounded-lg font-medium hover:bg-green-600 dark:hover:bg-orange-600 hover:text-white hover:border-transparent transition-colors"
           >
             Outcomes
           </button>

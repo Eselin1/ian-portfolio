@@ -12,7 +12,7 @@ export default function LoadingSpinner() {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-        className="w-8 h-8 border-2 border-green-500 dark:border-purple-500 border-t-transparent rounded-full"
+        className="w-8 h-8 border-2 border-green-500 dark:border-orange-500 border-t-transparent rounded-full"
       />
       <span className="ml-3 text-gray-600 dark:text-gray-400">Loading...</span>
     </motion.div>
