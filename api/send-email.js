@@ -32,32 +32,40 @@ export default async function handler(req, res) {
   const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
   const { name = '', email = '', message = '', hp = '', turnstileToken = '' } = body;
 
-  // Verify Cloudflare Turnstile token
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) {
-    return res.status(500).json({ error: 'Captcha not configured' });
-  }
-  if (!turnstileToken) {
-    return res.status(400).json({ error: 'captcha_missing' });
-  }
-  try {
-    const clientIp = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '').toString().split(',')[0].trim();
-    const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ secret, response: turnstileToken, remoteip: clientIp }),
-    });
-    const verifyData = await verifyRes.json();
-    if (!verifyData.success) {
-      return res.status(400).json({ error: 'captcha_failed' });
-    }
-  } catch (e) {
-    return res.status(400).json({ error: 'captcha_error' });
-  }
-
   // Honeypot: silently accept and do nothing
   if (hp && typeof hp === 'string' && hp.trim().length > 0) {
     return res.status(200).json({ ok: true });
+  }
+
+  // Turnstile (server-side) verification: only used on form submit, never blocks page load
+  const { TURNSTILE_SECRET_KEY } = process.env;
+  if (TURNSTILE_SECRET_KEY) {
+    // If a secret is configured, require a token and verify it.
+    if (!turnstileToken || typeof turnstileToken !== 'string' || turnstileToken.trim().length === 0) {
+      return res.status(400).json({ error: 'Missing captcha token' });
+    }
+
+    try {
+      const ip = (req.headers['x-forwarded-for'] || '').toString().split(',')[0].trim();
+      const params = new URLSearchParams();
+      params.set('secret', TURNSTILE_SECRET_KEY);
+      params.set('response', turnstileToken);
+      if (ip) params.set('remoteip', ip);
+
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      });
+
+      const verifyJson = await verifyRes.json();
+      if (!verifyJson?.success) {
+        return res.status(403).json({ error: 'Captcha verification failed' });
+      }
+    } catch (e) {
+      // If verification infrastructure fails, do not send email
+      return res.status(503).json({ error: 'Captcha verification unavailable' });
+    }
   }
 
   // Basic validation and sanitization

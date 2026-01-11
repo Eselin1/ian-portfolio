@@ -1,66 +1,88 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '', hp: '' });
   const maxChars = 500;
-  const [captchaToken, setCaptchaToken] = useState('');
-  const [captchaReady, setCaptchaReady] = useState(false);
-  const [shouldLoadTurnstile, setShouldLoadTurnstile] = useState(false);
-  const turnstileRef = useRef(null);
-  const widgetIdRef = useRef(null);
-  const sectionRef = useRef(null);
 
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
-
-  // Lazy load Turnstile only when section comes into view
-  useEffect(() => {
-    if (!sectionRef.current) return;
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setShouldLoadTurnstile(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '100px' }
-    );
-    
-    observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!siteKey || !shouldLoadTurnstile) return;
-    
-    const ensureScript = () => {
-      if (window.turnstile) return Promise.resolve();
-      return new Promise((resolve) => {
-        const s = document.createElement('script');
-        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=__tsOnLoad';
-        s.async = true;
-        s.defer = true;
-        window.__tsOnLoad = () => resolve();
-        document.head.appendChild(s);
-      });
-    };
-
-    ensureScript().then(() => {
-      setCaptchaReady(true);
-      if (turnstileRef.current && window.turnstile) {
-        widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
-          sitekey: siteKey,
-          theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
-          callback: (token) => setCaptchaToken(token),
-          'error-callback': () => setCaptchaToken(''),
-          'expired-callback': () => setCaptchaToken(''),
-        });
-      }
-    });
-  }, [siteKey, shouldLoadTurnstile]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+
+  // Turnstile: load/execute only on submit (no page gating)
+  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+  const turnstileContainerRef = useRef(null);
+  const turnstileWidgetIdRef = useRef(null);
+  const tokenResolverRef = useRef(null);
+
+  const ensureTurnstileScript = () => {
+    if (!siteKey) return Promise.resolve(false);
+    if (window.turnstile) return Promise.resolve(true);
+
+    return new Promise((resolve) => {
+      // Avoid adding the script multiple times
+      const existing = document.querySelector('script[data-turnstile="true"]');
+      if (existing) {
+        existing.addEventListener('load', () => resolve(true));
+        return;
+      }
+
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      s.async = true;
+      s.defer = true;
+      s.setAttribute('data-turnstile', 'true');
+      s.onload = () => resolve(true);
+      s.onerror = () => resolve(false);
+      document.head.appendChild(s);
+    });
+  };
+
+  const getTurnstileToken = async () => {
+    // If no site key is configured, skip Turnstile entirely
+    if (!siteKey) return '';
+
+    const ok = await ensureTurnstileScript();
+    if (!ok || !window.turnstile) return '';
+
+    // Render an invisible widget once
+    if (!turnstileWidgetIdRef.current && turnstileContainerRef.current) {
+      turnstileWidgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: siteKey,
+        size: 'invisible',
+        callback: (token) => {
+          if (tokenResolverRef.current) {
+            tokenResolverRef.current(token);
+            tokenResolverRef.current = null;
+          }
+        },
+        'error-callback': () => {
+          if (tokenResolverRef.current) {
+            tokenResolverRef.current('');
+            tokenResolverRef.current = null;
+          }
+        },
+        'expired-callback': () => {
+          if (tokenResolverRef.current) {
+            tokenResolverRef.current('');
+            tokenResolverRef.current = null;
+          }
+        },
+      });
+    }
+
+    if (!turnstileWidgetIdRef.current) return '';
+
+    // Execute at submit time and resolve via callback
+    return await new Promise((resolve) => {
+      tokenResolverRef.current = resolve;
+      try {
+        window.turnstile.execute(turnstileWidgetIdRef.current, { action: 'contact' });
+      } catch (e) {
+        tokenResolverRef.current = null;
+        resolve('');
+      }
+    });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -74,31 +96,36 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     try {
-      if (siteKey && !captchaToken) {
-        setSubmitStatus('captcha');
-        return;
+      // Honeypot: silently reject bots
+      if (formData.hp) {
+        throw new Error('Bot detected');
       }
+
+      const turnstileToken = await getTurnstileToken();
+
       const res = await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, turnstileToken: captchaToken }),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          hp: formData.hp,
+          turnstileToken,
+        }),
       });
-      if (res.status === 400) {
-        const data = await res.json().catch(() => ({}));
-        if (data?.error && String(data.error).startsWith('captcha')) {
-          setSubmitStatus('captcha');
-          return;
-        }
-      }
+
       if (!res.ok) throw new Error('Request failed');
+
       setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-      // Reset captcha after success
-      if (widgetIdRef.current && window.turnstile) {
-        window.turnstile.reset(widgetIdRef.current);
+      setFormData({ name: '', email: '', message: '', hp: '' });
+
+      // Reset Turnstile after success
+      if (turnstileWidgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(turnstileWidgetIdRef.current);
       }
-      setCaptchaToken('');
     } catch (error) {
       setSubmitStatus('error');
     } finally {
@@ -108,7 +135,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="py-12 scroll-mt-20" ref={sectionRef}>
+    <section id="contact" className="py-12 scroll-mt-20">
       <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -201,9 +228,8 @@ export default function ContactForm() {
               )}
             </motion.button>
 
-            <div className="flex justify-center mt-2">
-              <div ref={turnstileRef} />
-            </div>
+            {/* Invisible Turnstile container (token is fetched on submit) */}
+            <div ref={turnstileContainerRef} className="hidden" />
 
             <AnimatePresence>
               {submitStatus && (
@@ -214,16 +240,12 @@ export default function ContactForm() {
                   className={`mt-4 p-3 rounded-lg text-center ${
                     submitStatus === 'success'
                       ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-100'
-                      : submitStatus === 'captcha'
-                        ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-100'
-                        : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-100'
+                      : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-100'
                   }`}
                 >
                   {submitStatus === 'success'
                     ? "Message sent successfully! I'll get back to you soon."
-                    : submitStatus === 'captcha'
-                      ? 'Please complete the verification and try again.'
-                      : 'Something went wrong. Please try again or email me directly.'}
+                    : 'Something went wrong. Please try again or email me directly.'}
                 </motion.div>
               )}
             </AnimatePresence>
