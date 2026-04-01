@@ -144,14 +144,14 @@ export default function ContactForm() {
           className="p-6"
         >
           <div className="mb-6 text-center">
-            <h2 className="text-3xl md:text-5xl font-semibold inline-block relative">
-              <span className="relative z-10">Let's Connect!</span>
+            <h2 className="font-pixelify text-3xl md:text-5xl inline-block relative">
+              <span className="relative z-10">Contact Me</span>
               <motion.div
                 initial={{ width: 0 }}
                 whileInView={{ width: "100%" }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-                className="absolute bottom-0 left-5 h-4 bg-blue-600 dark:bg-orange-600 rounded z-0"
+                className="absolute -bottom-1 left-1/2 h-4 -translate-x-1/2 bg-sage rounded z-0"
               />
             </h2>
           </div>
@@ -176,7 +176,8 @@ export default function ContactForm() {
                 onChange={handleInputChange}
                 required
                 aria-label="Name"
-                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-orange-500/40 placeholder-gray-400"
+                className="w-full px-4 py-3 font-jersey25 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/40 placeholder-gray-400"
+                style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
                 placeholder="Name"
               />
             </div>
@@ -190,7 +191,8 @@ export default function ContactForm() {
                 onChange={handleInputChange}
                 required
                 aria-label="Email"
-                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-orange-500/40 placeholder-gray-400"
+                className="w-full px-4 py-3 font-jersey25 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/40 placeholder-gray-400"
+                style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
                 placeholder="Email"
               />
             </div>
@@ -205,7 +207,8 @@ export default function ContactForm() {
                 rows={4}
                 aria-label="Message"
                 maxLength={maxChars}
-                className="w-full pr-12 px-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/40 dark:focus:ring-orange-500/40 placeholder-gray-400 resize-none"
+                className="w-full pr-12 px-4 py-3 font-jersey25 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/40 placeholder-gray-400 resize-none"
+                style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
                 placeholder="Message"
               />
               <span className="pointer-events-none absolute bottom-2 right-3 text-xs text-gray-400 dark:text-zinc-400">{formData.message.length}/{maxChars}</span>
@@ -216,7 +219,8 @@ export default function ContactForm() {
               disabled={isSubmitting}
               whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full border border-gray-300 dark:border-zinc-600 hover:bg-blue-600 dark:hover:bg-orange-600 hover:border-blue-600 dark:hover:border-orange-600 hover:text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white px-6 py-3 rounded-lg font-jersey10 text-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
               >
               {isSubmitting ? (
                 <>

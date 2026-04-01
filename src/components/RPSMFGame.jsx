@@ -184,8 +184,16 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
             className="absolute inset-0 bg-white dark:bg-zinc-900 z-50 rounded-xl flex items-center justify-center p-8"
           >
             <div className="max-w-2xl">
-              <h3 className="text-2xl font-bold mb-4 text-center">Game Rules</h3>
-              <ul className="space-y-3 text-base">
+              <h3
+                className="mb-4 text-center font-jersey25 text-2xl"
+                style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+              >
+                Game Rules
+              </h3>
+              <ul
+                className="space-y-3 font-jersey25 text-base"
+                style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+              >
                 <li><strong>Classic RPS:</strong> Rock beats Scissors, Scissors beats Paper, Paper beats Rock</li>
                 <li><strong>Middle Finger Power:</strong> Instantly wins the set if thrown against Paper</li>
                 <li><strong>Middle Finger Weakness:</strong> Loses to Rock and Scissors</li>
@@ -206,7 +214,10 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
             exit={{ opacity: 0, y: -20 }}
             className="absolute top-2 left-2 right-2 z-40 p-3 bg-yellow-100 dark:bg-yellow-900/90 border border-yellow-300 dark:border-yellow-700 rounded-lg shadow-lg"
           >
-            <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-200 text-center">
+            <p
+              className="text-center font-jersey25 text-sm text-yellow-800 dark:text-yellow-200"
+              style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+            >
               {specialEvent}
             </p>
           </motion.div>
@@ -246,20 +257,26 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
 
         {/* Score Counter - Center */}
         <div className="flex items-center gap-3">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-green-600 dark:text-orange-600">{playerScore}</div>
-            <div className="text-xs text-gray-600 dark:text-gray-400">You</div>
-            {!playerMiddleFingerAvailable && (
-              <div className="text-xs text-red-500">🚫</div>
-            )}
-          </div>
-          <div className="text-center">
-            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <div
+              className="text-center font-jersey25"
+              style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+            >
+              <div className="text-2xl font-bold text-green-600 dark:text-orange-600">{playerScore}</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400">You</div>
+              {!playerMiddleFingerAvailable && (
+                <div className="text-xs text-red-500">🚫</div>
+              )}
+            </div>
+          <div
+            className="text-center font-jersey25"
+            style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+          >
+            <div className="text-sm text-gray-700 dark:text-gray-300">
               First to {targetWins}
             </div>
             {roundResult && lastPlayerMove && lastBotMove && (
               <div className="text-center">
-                <div className={`text-xs font-semibold ${
+                <div className={`text-xs ${
                   roundResult === 'draw' ? 'text-gray-500' :
                   roundResult === 'player' ? 'text-green-600' : 'text-red-600'
                 }`}>
@@ -268,14 +285,18 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
                 </div>
                 <button
                   onClick={resetGame}
-                  className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-xs underline mt-1"
+                  className="mt-1 font-jersey25 text-xs text-gray-600 underline hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+                  style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
                 >
                   Reset
                 </button>
               </div>
             )}
           </div>
-          <div className="text-center">
+          <div
+            className="text-center font-jersey25"
+            style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+          >
             <div className="text-2xl font-bold text-blue-600">{botScore}</div>
             <div className="text-xs text-gray-600 dark:text-gray-400">Bot</div>
             {!botMiddleFingerAvailable && (
@@ -307,14 +328,18 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
             <div className="text-6xl mb-4">
               {winner === 'player' ? '🎉' : '🤖'}
             </div>
-            <h3 className="text-3xl font-bold text-white mb-6">
+            <h3
+              className="mb-6 font-jersey25 text-3xl text-white"
+              style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+            >
               {winner === 'player' ? 'You Win!' : 'Bot Wins!'}
             </h3>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={resetGame}
-              className="bg-white text-green-600 dark:text-orange-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-lg"
+              className="rounded-lg bg-white px-8 py-4 font-jersey25 text-lg text-green-600 transition-colors hover:bg-gray-100 dark:text-orange-600"
+              style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
             >
               Play Again
             </motion.button>
@@ -338,13 +363,15 @@ const RPSMFGame = ({ isExpanding = false, showRules = false }) => {
                 key={key}
                 onClick={() => !isDisabled && playRound(key)}
                 disabled={isDisabled}
-                className={`h-full flex flex-col items-center justify-center font-semibold text-sm transition-all ${
+                className={`h-full flex flex-col items-center justify-center font-jersey25 text-sm transition-all ${
                   isDisabled
                     ? 'bg-gray-200 dark:bg-zinc-700 text-gray-400 cursor-not-allowed opacity-50'
                     : `${colorMap[key]} text-white`
                 }`}
+                style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
               >
                 <div className="text-8xl">{emoji}</div>
+                <div className="mt-2 text-center leading-none">{name}</div>
               </button>
             );
           })}

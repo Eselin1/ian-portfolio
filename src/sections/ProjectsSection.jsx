@@ -57,14 +57,14 @@ export default function ProjectsSection() {
           viewport={{ once: true }}
           className="mb-12 text-center"
         >
-          <h2 className="text-3xl md:text-5xl font-semibold inline-block relative">
+          <h2 className="font-pixelify text-3xl md:text-5xl inline-block relative">
             <span className="relative z-10">Projects</span>
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: "100%" }}
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-              className="absolute bottom-0 left-5 h-4 bg-green-600 dark:bg-orange-600 rounded z-0"
+              className="absolute -bottom-1 left-1/2 h-4 -translate-x-1/2 bg-sage rounded z-0"
             />
           </h2>
         </motion.div>
@@ -122,8 +122,16 @@ export default function ProjectsSection() {
                                 className="absolute inset-0 bg-white dark:bg-zinc-900 z-50 rounded-xl flex items-center justify-center p-8"
                               >
                                 <div className="max-w-2xl">
-                                  <h3 className="text-2xl font-bold mb-4 text-center">Game Rules</h3>
-                                  <ul className="space-y-3 text-base">
+                                  <h3
+                                    className="mb-4 text-center font-jersey10 text-4xl md:text-5xl"
+                                    style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
+                                  >
+                                    Game Rules
+                                  </h3>
+                                  <ul
+                                    className="space-y-3 font-jersey25 text-base"
+                                    style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+                                  >
                                     <li><strong>Classic RPS:</strong> Rock beats Scissors, Scissors beats Paper, Paper beats Rock</li>
                                     <li><strong>Middle Finger Power:</strong> Instantly wins the set if thrown against Paper</li>
                                     <li><strong>Middle Finger Weakness:</strong> Loses to Rock and Scissors</li>
@@ -147,11 +155,17 @@ export default function ProjectsSection() {
 
                   {/* Description Side */}
                   <div className={`flex flex-col justify-center ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-                    <h3 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+                    <h3
+                      className="font-jersey10 text-3xl mb-4 text-gray-900 dark:text-white"
+                      style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
+                    >
                       {project.title}
                     </h3>
                     
-                    <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                    <p
+                      className="font-jersey25 text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed"
+                      style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+                    >
                       {project.description}
                     </p>
 
@@ -159,7 +173,8 @@ export default function ProjectsSection() {
                       {project.tech.map((tech, i) => (
                         <span 
                           key={i} 
-                          className="px-3 py-1 bg-gray-200 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium"
+                          className="px-3 py-1 bg-gray-200 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-jersey25"
+                          style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
                         >
                           {tech}
                         </span>
@@ -173,7 +188,8 @@ export default function ProjectsSection() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleDemoToggle(project.id)}
-                            className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-orange-600 hover:border-green-600 dark:hover:border-orange-600 hover:text-white rounded-lg font-semibold transition-colors shadow-lg w-[180px]"
+                            className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg w-[180px]"
+                            style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                           >
                             {isExpanded ? '■ Stop Demo' : '▶ Try Live Demo'}
                           </motion.button>
@@ -182,7 +198,8 @@ export default function ProjectsSection() {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                               onClick={() => setShowRules(!showRules)}
-                              className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-green-600 dark:hover:bg-orange-600 hover:border-green-600 dark:hover:border-orange-600 hover:text-white rounded-lg font-semibold transition-colors shadow-lg"
+                              className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                              style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                             >
                               {showRules ? 'Hide Rules' : 'Show Rules'}
                             </motion.button>
@@ -196,7 +213,8 @@ export default function ProjectsSection() {
                           href={project.appStoreUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors shadow-lg"
+                          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                          style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
                           📱 View on App Store
                         </motion.a>
@@ -208,7 +226,8 @@ export default function ProjectsSection() {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors shadow-lg"
+                          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                          style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
                           View Live
                         </motion.a>
@@ -220,7 +239,8 @@ export default function ProjectsSection() {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 border-2 border-gray-300 dark:border-zinc-600 hover:border-gray-400 dark:hover:border-zinc-500 text-gray-800 dark:text-gray-200 rounded-lg font-semibold transition-colors"
+                          className="px-6 py-3 border-2 border-gray-300 dark:border-zinc-600 hover:border-gray-400 dark:hover:border-zinc-500 text-gray-800 dark:text-gray-200 rounded-lg font-jersey10 text-xl transition-colors"
+                          style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
                           💻 View Code
                         </motion.a>

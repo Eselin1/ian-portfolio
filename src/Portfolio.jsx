@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import LoadingSpinner from './components/LoadingSpinner';
-import StickyHeader from './components/StickyHeader';
 import Footer from './components/Footer';
 import Hero from './sections/Hero';
-import AboutSection from './sections/AboutSection';
-import ProjectsSection from './sections/ProjectsSection';
-import ContactForm from './sections/ContactForm';
 import useActiveSection from './hooks/useActiveSection';
 import BackToTop from './components/BackToTop';
+import TopNav from './components/TopNav';
 
 export default function Portfolio({ onTemperatureChange }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [activeSection, setActiveSection] = useActiveSection('home');
+  const [activeSection] = useActiveSection('home');
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -21,14 +18,9 @@ export default function Portfolio({ onTemperatureChange }) {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-white text-black dark:bg-zinc-900 dark:text-zinc-100 font-sans">
+    <div className="min-h-screen font-sans">
       <Hero onTemperatureChange={onTemperatureChange} />
-      <StickyHeader activeSection={activeSection} setActiveSection={setActiveSection} />
-      <main className="max-w-6xl mx-auto px-6 lg:px-8 space-y-16 py-12">
-        <AboutSection />
-        <ProjectsSection />
-        <ContactForm />
-      </main>
+      <TopNav />
       <Footer />
       <BackToTop activeSection={activeSection} />
     </div>

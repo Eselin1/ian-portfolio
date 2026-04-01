@@ -1,50 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
-import Portfolio from './Portfolio';
-import ThemeToggle from './ThemeToggle';
+import React from 'react';
+import { HashRouter, Routes, Route, Outlet } from 'react-router-dom';
+import Splash from './Splash';
 import Capstone from './Capstone';
+import Projects from './Projects';
+import About from './About';
+import Contact from './Contact';
+import TopNav from './components/TopNav';
 
 function AppLayout() {
-  const [temperature, setTemperature] = useState(null);
-  const [isOnHero, setIsOnHero] = useState(true);
-  const location = useLocation();
-  const isHome = location.pathname === '/';
-  
-  useEffect(() => {
-    if (!isHome) return undefined;
-    const handleScroll = () => {
-      // Check if we're on the hero section (top of page)
-      setIsOnHero(window.scrollY < window.innerHeight * 0.8);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isHome]);
-  
   return (
-    <>
-      {isHome && isOnHero && temperature !== null && (
-        <div className="fixed top-4 left-4 z-50">
-          <div className="bg-white/10 dark:bg-black/30 backdrop-blur-md text-gray-900 dark:text-white px-4 py-2 rounded-full text-sm font-medium">
-            {temperature}°F
-          </div>
-        </div>
-      )}
-      <div className="fixed top-4 right-4 z-50">
-        <ThemeToggle />
-      </div>
-      <Routes>
-        <Route path="/" element={<Portfolio onTemperatureChange={setTemperature} />} />
-        <Route path="/capstone" element={<Capstone />} />
-      </Routes>
-    </>
+    <div className="flex min-h-screen flex-col bg-white text-black transition-colors duration-300 dark:bg-zinc-800 dark:text-zinc-100">
+      <TopNav />
+      <main className="w-full flex-1">
+        <Outlet />
+      </main>
+    </div>
   );
 }
 
 export default function App() {
   return (
     <HashRouter>
-      <AppLayout />
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<Splash />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/capstone" element={<Capstone />} />
+        </Route>
+      </Routes>
     </HashRouter>
   );
 }

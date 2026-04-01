@@ -1,40 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-export default function ThemeToggle() {
-  const getSystemPref = () =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches;
+const THEME_STORAGE_KEY = 'theme-preference';
 
-  const [dark, setDark] = useState(getSystemPref);
+export default function ThemeToggle() {
+  const getPreferredTheme = () => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme === 'dark') {
+      return true;
+    }
+
+    if (savedTheme === 'light') {
+      return false;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  };
+
+  const [dark, setDark] = useState(() => {
+    return getPreferredTheme();
+  });
 
   useEffect(() => {
     const root = document.documentElement;
+
     if (dark) {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
+
+    window.localStorage.setItem(THEME_STORAGE_KEY, dark ? 'dark' : 'light');
   }, [dark]);
 
-  // Listen for system theme changes
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      return undefined;
+    }
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e) => {
-      setDark(e.matches);
+    const handleChange = (event) => {
+      setDark(event.matches);
     };
-    
+
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  const toggleTheme = () => {
-    setDark(!dark);
-  };
-
   return (
     <motion.button
-      onClick={toggleTheme}
-      className="fixed left-4 sm:left-6 bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-50 w-12 h-12 rounded-full bg-gray-50/80 dark:bg-zinc-900/70 backdrop-blur border border-gray-200 dark:border-zinc-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
+      onClick={() => setDark((current) => !current)}
+      className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/20 shadow-soft transition-all duration-300 hover:bg-white/30 dark:border-white/10 dark:bg-zinc-700/80 dark:hover:bg-zinc-700"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       aria-label={`Switch to ${dark ? 'light' : 'dark'} mode`}

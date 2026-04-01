@@ -38,14 +38,12 @@ export default function AboutSection() {
   }, []);
 
   useEffect(() => {
-    if (!isMobile) return;
-    
     const interval = setInterval(() => {
-      setRotationOffset(prev => prev + 0.05); // Even slower for smoother fades
-    }, 50); // Update every 50ms for smooth animation
-    
+      setRotationOffset((prev) => prev + 0.03);
+    }, 50);
+
     return () => clearInterval(interval);
-  }, [isMobile]);
+  }, []);
 
   return (
     <section id="about" className="py-12 scroll-mt-20">
@@ -56,14 +54,14 @@ export default function AboutSection() {
           viewport={{ once: true }}
           className="mb-12 text-center"
         >
-          <h2 className="text-3xl md:text-5xl font-semibold inline-block relative">
+          <h2 className="font-pixelify text-3xl md:text-5xl inline-block relative">
             <span className="relative z-10">About</span>
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: "100%" }}
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-              className="absolute bottom-0 left-5 h-4 bg-red-600 dark:bg-orange-600 rounded z-0"
+              className="absolute -bottom-1 left-1/2 h-4 -translate-x-1/2 bg-sage rounded z-0"
             />
           </h2>
         </motion.div>
@@ -80,10 +78,12 @@ export default function AboutSection() {
             <div className="relative w-full h-full flex items-center justify-center" style={{ marginLeft: '-40px' }}>
               <div className="relative w-[800px] h-[800px]">
               {skillLogos.map((skill, index) => {
-                const angle = (index * 360) / skillLogos.length;
+                const totalIcons = skillLogos.length;
+                const baseAngle = (index * 360) / totalIcons;
+                const currentAngle = baseAngle + (rotationOffset * 360 / totalIcons);
                 const radius = 380;
-                const x = Math.cos((angle - 90) * Math.PI / 180) * radius;
-                const y = Math.sin((angle - 90) * Math.PI / 180) * radius;
+                const x = Math.cos((currentAngle - 90) * Math.PI / 180) * radius;
+                const y = Math.sin((currentAngle - 90) * Math.PI / 180) * radius;
                 
                 // Clockwise animation with faster timing
                 const clockwiseDelay = index * 0.05;
@@ -207,11 +207,17 @@ export default function AboutSection() {
                 />
               </div>
               
-              <p className="text-lg leading-relaxed">
+              <p
+                className="font-jersey25 text-lg leading-relaxed"
+                style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+              >
                 Driven by curiosity — I'm a software engineer who builds with intention and learns fast. Frontend is where I thrive: crafting responsive UIs, obsessing over animations, and turning designs into production-ready interfaces. Whether it's Angular or React, I make things feel fast and look clean.
               </p>
               
-              <p className="text-lg leading-relaxed">
+              <p
+                className="font-jersey25 text-lg leading-relaxed"
+                style={{ fontFamily: '"Jersey 25", system-ui, sans-serif' }}
+              >
                 On the flipside, I can build a backend with scalable APIs, integrate WebSockets and RESTful services, and make systems work under pressure. With 2 years shipping enterprise VoIP applications, I'm just as comfortable architecting Spring Boot services as I am wrangling databases or automating deployments.
               </p>
               
@@ -220,7 +226,8 @@ export default function AboutSection() {
                 download
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 mt-6 border border-gray-300 dark:border-zinc-600 hover:bg-red-600 dark:hover:bg-orange-600 hover:border-red-600 dark:hover:border-orange-600 hover:text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
+                className="inline-flex items-center gap-2 mt-6 border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white px-6 py-2.5 rounded-lg font-jersey10 text-xl transition-colors"
+                style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />

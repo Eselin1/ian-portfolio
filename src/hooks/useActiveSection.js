@@ -9,7 +9,7 @@ export default function useActiveSection(initial = 'home') {
   useEffect(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    const sectionIds = ['home', 'about', 'projects', 'experience', 'contact'];
+    const sectionIds = ['home'];
 
     const setupObserver = () => {
       const elements = sectionIds
@@ -50,8 +50,7 @@ export default function useActiveSection(initial = 'home') {
         });
 
         if (bestRatio > 0 || window.innerHeight + window.scrollY >= document.body.offsetHeight - 2) {
-          const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
-          setActiveSection(atBottom ? 'contact' : bestId);
+          setActiveSection(bestId);
         }
       }, options);
 
