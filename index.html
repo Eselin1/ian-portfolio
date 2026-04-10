@@ -37,6 +37,25 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#000000">
+    <script>
+      (function () {
+        try {
+          var savedTheme = window.localStorage.getItem('theme-preference');
+          var hasThemePreference = savedTheme === 'dark' || savedTheme === 'light';
+          var prefersDark = true;
+
+          if (!hasThemePreference && typeof window.matchMedia === 'function') {
+            prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          }
+
+          if (savedTheme === 'dark' || (!hasThemePreference && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (error) {
+          document.documentElement.classList.add('dark');
+        }
+      }());
+    </script>
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">

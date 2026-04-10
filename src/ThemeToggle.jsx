@@ -6,7 +6,7 @@ const THEME_STORAGE_KEY = 'theme-preference';
 export default function ThemeToggle() {
   const getPreferredTheme = () => {
     if (typeof window === 'undefined') {
-      return false;
+      return true;
     }
 
     const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
@@ -16,6 +16,10 @@ export default function ThemeToggle() {
 
     if (savedTheme === 'light') {
       return false;
+    }
+
+    if (typeof window.matchMedia !== 'function') {
+      return true;
     }
 
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
