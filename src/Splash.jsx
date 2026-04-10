@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import circleIcon from './Splash/img/CIRCLE-ICON.svg';
 import flowerIcon from './Splash/img/FLOWER-ICON.svg';
 
-const SONIC_VIDEO_URL = 'https://media.tenor.com/K-wLBEYEtr8AAAPo/sonic-freaky.mp4';
+const SONIC_VIDEO_URL = '/images/sonic-freaky.mp4';
 const SONIC_VIDEO_DURATION_MS = 4500;
 const SONIC_VIDEO_FADE_MS = 700;
 const SONIC_VIDEO_PLAYBACK_RATE = 2;
@@ -174,7 +174,6 @@ export default function Splash() {
             autoPlay
             muted
             playsInline
-            crossOrigin="anonymous"
             preload="auto"
             onLoadedMetadata={handleSonicVideoLoad}
             onPlay={handleSonicVideoPlay}
