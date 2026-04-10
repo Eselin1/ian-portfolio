@@ -3,6 +3,12 @@ import { NavLink } from 'react-router-dom';
 import circleIcon from './Splash/img/CIRCLE-ICON.svg';
 import flowerIcon from './Splash/img/FLOWER-ICON.svg';
 
+const SONIC_VIDEO_URL = 'https://media.tenor.com/K-wLBEYEtr8AAAPo/sonic-freaky.mp4';
+const SONIC_VIDEO_DURATION_MS = 4500;
+const SONIC_VIDEO_FADE_MS = 700;
+const SONIC_VIDEO_PLAYBACK_RATE = 2;
+const SONIC_BLACK_THRESHOLD = 40;
+
 function ArrowIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
@@ -17,12 +23,25 @@ export default function Splash() {
   const [flowerRotation, setFlowerRotation] = useState(0);
   const [showScaryPortrait, setShowScaryPortrait] = useState(false);
   const [isAnimatingFlower, setIsAnimatingFlower] = useState(false);
+  const [sonicOverlay, setSonicOverlay] = useState({
+    isVisible: false,
+    isFading: false,
+    runId: 0,
+  });
   const animationTimersRef = useRef([]);
+  const sonicTimersRef = useRef([]);
+  const sonicCanvasRef = useRef(null);
+  const sonicFrameRef = useRef(null);
 
   useEffect(() => {
     return () => {
       animationTimersRef.current.forEach((timer) => window.clearTimeout(timer));
       animationTimersRef.current = [];
+      sonicTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+      sonicTimersRef.current = [];
+      if (sonicFrameRef.current) {
+        window.cancelAnimationFrame(sonicFrameRef.current);
+      }
     };
   }, []);
 
@@ -53,8 +72,120 @@ export default function Splash() {
     animationTimersRef.current = [showTimer, hideTimer, resetTimer];
   };
 
+  const handleFeaturedImageClick = () => {
+    if (sonicOverlay.isVisible) {
+      return;
+    }
+
+    sonicTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+    sonicTimersRef.current = [];
+
+    setSonicOverlay((current) => ({
+      isVisible: true,
+      isFading: false,
+      runId: current.runId + 1,
+    }));
+
+    const fadeTimer = window.setTimeout(() => {
+      setSonicOverlay((current) => ({
+        ...current,
+        isFading: true,
+      }));
+    }, SONIC_VIDEO_DURATION_MS);
+
+    const hideTimer = window.setTimeout(() => {
+      setSonicOverlay((current) => ({
+        isVisible: false,
+        isFading: false,
+        runId: current.runId,
+      }));
+    }, SONIC_VIDEO_DURATION_MS + SONIC_VIDEO_FADE_MS);
+
+    sonicTimersRef.current = [fadeTimer, hideTimer];
+  };
+
+  const handleSonicVideoLoad = (event) => {
+    event.currentTarget.playbackRate = SONIC_VIDEO_PLAYBACK_RATE;
+    event.currentTarget.play().catch(() => {});
+  };
+
+  const drawSonicFrame = (video) => {
+    const canvas = sonicCanvasRef.current;
+
+    if (!canvas || video.paused || video.ended) {
+      return;
+    }
+
+    const width = video.videoWidth;
+    const height = video.videoHeight;
+
+    if (!width || !height) {
+      sonicFrameRef.current = window.requestAnimationFrame(() => drawSonicFrame(video));
+      return;
+    }
+
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width;
+      canvas.height = height;
+    }
+
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    context.clearRect(0, 0, width, height);
+    context.drawImage(video, 0, 0, width, height);
+
+    const frame = context.getImageData(0, 0, width, height);
+    const { data } = frame;
+
+    for (let index = 0; index < data.length; index += 4) {
+      const red = data[index];
+      const green = data[index + 1];
+      const blue = data[index + 2];
+
+      if (red < SONIC_BLACK_THRESHOLD && green < SONIC_BLACK_THRESHOLD && blue < SONIC_BLACK_THRESHOLD) {
+        data[index + 3] = 0;
+      }
+    }
+
+    context.putImageData(frame, 0, 0);
+    sonicFrameRef.current = window.requestAnimationFrame(() => drawSonicFrame(video));
+  };
+
+  const handleSonicVideoPlay = (event) => {
+    if (sonicFrameRef.current) {
+      window.cancelAnimationFrame(sonicFrameRef.current);
+    }
+
+    drawSonicFrame(event.currentTarget);
+  };
+
   return (
     <section className="h-full w-full">
+      {sonicOverlay.isVisible && (
+        <div
+          className={`pointer-events-none fixed inset-0 z-[9999] bg-transparent transition-opacity duration-700 ease-out ${
+            sonicOverlay.isFading ? 'opacity-0' : 'opacity-100'
+          }`}
+          aria-hidden="true"
+        >
+          <video
+            key={sonicOverlay.runId}
+            className="sr-only"
+            src={`${SONIC_VIDEO_URL}?run=${sonicOverlay.runId}`}
+            autoPlay
+            muted
+            playsInline
+            crossOrigin="anonymous"
+            preload="auto"
+            onLoadedMetadata={handleSonicVideoLoad}
+            onPlay={handleSonicVideoPlay}
+          />
+          <canvas
+            ref={sonicCanvasRef}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      )}
+
       <div className="h-full w-full bg-white transition-colors duration-300 dark:bg-zinc-800">
         {/* Grid */}
         <div className="grid h-full w-full grid-cols-1 gap-5 p-5 md:gap-6 md:p-6 lg:h-[calc(100vh-7.5rem)] lg:grid-cols-12 lg:grid-rows-[minmax(0,1.65fr)_minmax(0,1fr)]">
@@ -129,9 +260,15 @@ export default function Splash() {
               </NavLink>
             </div>
 
-            <div className="mt-4 overflow-hidden border border-black bg-black/5">
+            <button
+              type="button"
+              onClick={handleFeaturedImageClick}
+              disabled={sonicOverlay.isVisible}
+              className="mt-4 overflow-hidden border border-black bg-black/5 p-0 text-left transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-black/30 disabled:cursor-wait disabled:hover:opacity-100"
+              aria-label="Play Sonic GIF"
+            >
               <img className="block h-auto w-full" src="/images/featured.JPG" alt="Featured project preview" />
-            </div>
+            </button>
 
             <div className="mt-5 border-b border-black/10 font-pixelify text-sm">
               <NavLink className="flex items-center justify-between py-6 hover:opacity-80" to="/projects">
