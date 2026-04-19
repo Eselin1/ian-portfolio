@@ -14,13 +14,12 @@ export default defineConfig({
     }
   },
   server: {
-    // Run Vite on 5173 to avoid clashing with `vercel dev` (3000)
+    // Run Vite on 5173 and proxy API requests to local Cloudflare Pages Functions.
     port: 5173,
     open: true,
     proxy: {
-      // Proxy API requests to the local Vercel functions server
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:8788',
         changeOrigin: true,
         secure: false
       }

@@ -19,9 +19,7 @@
     "@fontsource/pixelify-sans": "^5.2.7",
     "@fontsource/sixtyfour": "^5.2.8",
     "@fontsource/workbench": "^5.2.8",
-    "@vercel/analytics": "^1.5.0",
     "framer-motion": "^10.12.16",
-    "nodemailer": "^7.0.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.30.3"
