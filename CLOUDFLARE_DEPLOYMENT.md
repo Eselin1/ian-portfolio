@@ -13,14 +13,14 @@ This project is configured for Cloudflare Pages.
 
 Set these in Cloudflare Pages under Settings > Environment variables:
 
-- `VITE_TURNSTILE_SITE_KEY`
-- `TURNSTILE_SECRET_KEY`
-- `CLOUDFLARE_ACCOUNT_ID`
-- `CLOUDFLARE_EMAIL_API_TOKEN`
-- `CONTACT_FROM_EMAIL`
-- `CONTACT_TO_EMAIL`
-- `ALLOWED_ORIGINS`
+- `VITE_CONTACT_WORKER_URL`
+- `VITE_CONTACT_SITE_ID`
 
-`CONTACT_FROM_EMAIL` must be a sender allowed by Cloudflare Email Service. `CONTACT_TO_EMAIL` defaults to `ian@repsher.dev` if omitted.
+Recommended values:
 
-For local Pages Functions testing, use Wrangler and add secrets with `wrangler pages secret put`.
+```text
+VITE_CONTACT_WORKER_URL=https://contact.repsher.dev
+VITE_CONTACT_SITE_ID=ian-portfolio
+```
+
+The contact Worker lives in `contact-worker/` and sends through Zoho SMTP with `helper@repsher.dev` as the sender.

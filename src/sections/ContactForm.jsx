@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ContactForm() {
@@ -7,82 +7,9 @@ export default function ContactForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
-
-  // Turnstile: load/execute only on submit (no page gating)
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
-  const turnstileContainerRef = useRef(null);
-  const turnstileWidgetIdRef = useRef(null);
-  const tokenResolverRef = useRef(null);
-
-  const ensureTurnstileScript = () => {
-    if (!siteKey) return Promise.resolve(false);
-    if (window.turnstile) return Promise.resolve(true);
-
-    return new Promise((resolve) => {
-      // Avoid adding the script multiple times
-      const existing = document.querySelector('script[data-turnstile="true"]');
-      if (existing) {
-        existing.addEventListener('load', () => resolve(true));
-        return;
-      }
-
-      const s = document.createElement('script');
-      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-      s.async = true;
-      s.defer = true;
-      s.setAttribute('data-turnstile', 'true');
-      s.onload = () => resolve(true);
-      s.onerror = () => resolve(false);
-      document.head.appendChild(s);
-    });
-  };
-
-  const getTurnstileToken = async () => {
-    // If no site key is configured, skip Turnstile entirely
-    if (!siteKey) return '';
-
-    const ok = await ensureTurnstileScript();
-    if (!ok || !window.turnstile) return '';
-
-    // Render an invisible widget once
-    if (!turnstileWidgetIdRef.current && turnstileContainerRef.current) {
-      turnstileWidgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
-        sitekey: siteKey,
-        size: 'invisible',
-        callback: (token) => {
-          if (tokenResolverRef.current) {
-            tokenResolverRef.current(token);
-            tokenResolverRef.current = null;
-          }
-        },
-        'error-callback': () => {
-          if (tokenResolverRef.current) {
-            tokenResolverRef.current('');
-            tokenResolverRef.current = null;
-          }
-        },
-        'expired-callback': () => {
-          if (tokenResolverRef.current) {
-            tokenResolverRef.current('');
-            tokenResolverRef.current = null;
-          }
-        },
-      });
-    }
-
-    if (!turnstileWidgetIdRef.current) return '';
-
-    // Execute at submit time and resolve via callback
-    return await new Promise((resolve) => {
-      tokenResolverRef.current = resolve;
-      try {
-        window.turnstile.execute(turnstileWidgetIdRef.current, { action: 'contact' });
-      } catch (e) {
-        tokenResolverRef.current = null;
-        resolve('');
-      }
-    });
-  };
+  const [statusMessage, setStatusMessage] = useState('');
+  const contactWorkerUrl = import.meta.env.VITE_CONTACT_WORKER_URL;
+  const contactSiteId = import.meta.env.VITE_CONTACT_SITE_ID || 'ian-portfolio';
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -96,41 +23,56 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus(null);
+    setStatusMessage('');
 
     try {
       // Honeypot: silently reject bots
       if (formData.hp) {
-        throw new Error('Bot detected');
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '', hp: '' });
+        return;
       }
 
-      const turnstileToken = await getTurnstileToken();
+      if (!contactWorkerUrl) {
+        throw new Error('Contact form is not configured yet.');
+      }
 
-      const res = await fetch('/api/send-email', {
+      const res = await fetch(contactWorkerUrl, {
         method: 'POST',
+        mode: 'cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          siteId: contactSiteId,
+          subject: `New message from ${formData.name} via portfolio`,
           name: formData.name,
           email: formData.email,
           message: formData.message,
           hp: formData.hp,
-          turnstileToken,
         }),
       });
 
-      if (!res.ok) throw new Error('Request failed');
+      const result = await res.json().catch(() => null);
+      if (!res.ok || result?.success === false) {
+        throw new Error(result?.message || result?.body?.message || 'Request failed');
+      }
 
       setSubmitStatus('success');
+      setStatusMessage("Message sent successfully! I'll get back to you soon.");
       setFormData({ name: '', email: '', message: '', hp: '' });
-
-      // Reset Turnstile after success
-      if (turnstileWidgetIdRef.current && window.turnstile) {
-        window.turnstile.reset(turnstileWidgetIdRef.current);
-      }
     } catch (error) {
       setSubmitStatus('error');
+      setStatusMessage(
+        error?.message && error.message !== 'Request failed'
+          ? error.message
+          : 'Something went wrong. Please try again or email me directly.'
+      );
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
+      setTimeout(() => {
+        setSubmitStatus(null);
+        setStatusMessage('');
+      }, 5000);
     }
   };
 
@@ -232,9 +174,6 @@ export default function ContactForm() {
               )}
             </motion.button>
 
-            {/* Invisible Turnstile container (token is fetched on submit) */}
-            <div ref={turnstileContainerRef} className="hidden" />
-
             <AnimatePresence>
               {submitStatus && (
                 <motion.div
@@ -247,9 +186,7 @@ export default function ContactForm() {
                       : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-100'
                   }`}
                 >
-                  {submitStatus === 'success'
-                    ? "Message sent successfully! I'll get back to you soon."
-                    : 'Something went wrong. Please try again or email me directly.'}
+                  {statusMessage}
                 </motion.div>
               )}
             </AnimatePresence>
