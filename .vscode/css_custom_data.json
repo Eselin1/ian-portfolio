@@ -1,0 +1,21 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@tailwind",
+      "description": "Tailwind CSS directive for injecting base, component, utility, or screen styles."
+    },
+    {
+      "name": "@apply",
+      "description": "Tailwind CSS directive for composing existing utility classes into custom CSS."
+    },
+    {
+      "name": "@layer",
+      "description": "Tailwind CSS directive for assigning custom styles to base, components, or utilities layers."
+    },
+    {
+      "name": "@config",
+      "description": "Tailwind CSS directive for specifying a Tailwind configuration file."
+    }
+  ]
+}

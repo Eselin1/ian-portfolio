@@ -25,7 +25,9 @@ pnpm-debug.log*
 Thumbs.db
 
 # IDE/Editor configs
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/css_custom_data.json
 .idea/
 *.sw?
 *.iml
