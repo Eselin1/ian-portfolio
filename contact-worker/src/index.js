@@ -6,6 +6,14 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
+class SmtpError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'SmtpError';
+    this.code = code;
+  }
+}
+
 const json = (body, status = 200, origin = '') =>
   new Response(JSON.stringify(body), {
     status,
@@ -88,6 +96,21 @@ const buildEmail = ({ sender, recipient, site, name, email, subject, message }) 
 
 const parseSmtpCode = (line) => Number(line.slice(0, 3));
 
+const classifySmtpResponse = (response) => {
+  const message = response.lines.join(' | ').toLowerCase();
+  const code = response.code;
+
+  if ([535, 534, 530].includes(code)) return 'SMTP_AUTH_FAILED';
+  if ([550, 551, 553, 554].includes(code)) return 'SMTP_RECIPIENT_OR_SENDER_REJECTED';
+  if (code === 421) return 'SMTP_SERVICE_UNAVAILABLE';
+  if (code === 454) return 'SMTP_TEMPORARY_AUTH_FAILURE';
+  if (message.includes('daily')) return 'SMTP_DAILY_LIMIT';
+  if (message.includes('quota')) return 'SMTP_QUOTA';
+
+  return `SMTP_UNEXPECTED_${code || 'RESPONSE'}`;
+};
+
+
 const createSmtpClient = async ({ host, port, secure }) => {
   const socket = connect(
     { hostname: host, port },
@@ -131,7 +154,7 @@ const createSmtpClient = async ({ host, port, secure }) => {
       } else {
         const { value, done } = await reader.read();
         if (done) {
-          throw new Error('SMTP connection closed unexpectedly');
+          throw new SmtpError('SMTP_CONNECTION_CLOSED', 'SMTP connection closed unexpectedly');
         }
         buffer += decoder.decode(value, { stream: true });
       }
@@ -141,7 +164,10 @@ const createSmtpClient = async ({ host, port, secure }) => {
   const expect = async (expectedCodes) => {
     const response = await readResponse();
     if (!expectedCodes.includes(response.code)) {
-      throw new Error(`Unexpected SMTP response ${response.code}: ${response.lines.join(' | ')}`);
+      throw new SmtpError(
+        classifySmtpResponse(response),
+        `Unexpected SMTP response ${response.code}`
+      );
     }
     return response;
   };
@@ -197,7 +223,7 @@ const sendSmtpEmail = async (env, { to, rawEmail }) => {
   const from = env.CONTACT_SENDER || username;
 
   if (!host || !port || !username || !password || !from) {
-    throw new Error('SMTP is not configured');
+    throw new SmtpError('SMTP_NOT_CONFIGURED', 'SMTP is not configured');
   }
 
   const smtp = await createSmtpClient({ host, port, secure });
@@ -286,7 +312,14 @@ export default {
       return json({ ok: true }, 200, origin);
     } catch (error) {
       console.error('Email send failed', error);
-      return json({ error: 'Failed to send message' }, 502, origin);
+      return json(
+        {
+          error: 'Failed to send message',
+          code: error?.code || 'SMTP_SEND_FAILED',
+        },
+        502,
+        origin
+      );
     }
   },
 };
