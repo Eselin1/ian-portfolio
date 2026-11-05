@@ -208,7 +208,7 @@ export default function ProjectsSection() {
                       ) : project.logo ? (
                         <div className="flex min-h-[320px] flex-col items-center justify-center gap-6 rounded-2xl bg-[#253030] p-10 shadow-xl">
                           <img src={project.logo} alt="ECG" width="200" height="200" className="h-40 w-40 object-contain" />
-                          <p className="font-jersey25 text-xl text-white">Enterprise VoIP Application</p>
+                          <p className="font-jersey25 text-xl text-white">Alpaca</p>
                         </div>
                       ) : project.monogram ? (
                         <div className="bg-sage/20 dark:bg-sage/10 rounded-2xl min-h-[280px] md:min-h-[360px] border border-sage/40 p-8 md:p-10 flex flex-col justify-between">
