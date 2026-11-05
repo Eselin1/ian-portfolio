@@ -8,21 +8,22 @@ export default function ProjectGallery({ title, images }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 grid-rows-2 gap-1 overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-600 shadow-xl aspect-[4/3]">
+      <div className="project-photo-stack">
         {images.map((image, index) => (
           <button
             key={image.src}
             type="button"
             onClick={() => { setSelected(index); dialog.current.showModal(); }}
             aria-label={`View ${title}: ${image.label}`}
-            className={`group relative overflow-hidden bg-gray-100 focus-visible:z-10 focus-visible:outline focus-visible:outline-4 focus-visible:outline-blue-600 ${index === 0 ? 'row-span-2' : ''}`}
+            className="project-photo-card group bg-gray-100 focus-visible:outline focus-visible:outline-4 focus-visible:outline-blue-600"
+            style={{ '--card-index': index }}
           >
-            <img src={image.src} alt={`${title} ${image.label} page`} loading="lazy" width="1280" height="720" className="h-full w-full object-cover object-top transition-transform duration-300 motion-safe:group-hover:scale-105" />
+            <img src={image.src} alt={`${title} ${image.label} page`} loading="lazy" width="1280" height="720" className="h-full w-full object-cover object-top" />
             <span className="absolute bottom-2 left-2 rounded-full bg-black/75 px-3 py-1 text-xs text-white">{image.label} <span aria-hidden="true">↗</span></span>
           </button>
         ))}
       </div>
-      <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">3 page views · Select an image to explore</p>
+      <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">Hover to explore · Select a page to enlarge</p>
       {createPortal(<dialog
         ref={dialog}
         aria-label={`${title} screenshots`}
