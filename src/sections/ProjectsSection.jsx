@@ -12,6 +12,13 @@ const projects = [
     summary: 'A training plan that moves with your week.',
     description: 'A soccer strength and conditioning progressive web app with weekly scheduling, workout logging, and per-set progression. Local-first storage keeps training history on the device, with optional WHOOP integration.',
     tech: ['React', 'TypeScript', 'Vite', 'PWA'],
+    galleryFormat: 'phone',
+    demoUrl: '/demos/pitchform/index.html',
+    screenshots: [
+      { src: '/projects/pitchform-today.png', label: 'Today' },
+      { src: '/projects/pitchform-calendar.png', label: 'Calendar' },
+      { src: '/projects/pitchform-train.png', label: 'Train' }
+    ],
     githubUrl: 'https://github.com/Eselin1/PitchForm'
   },
   {
@@ -204,7 +211,7 @@ export default function ProjectsSection() {
                           </AnimatePresence>
                         </div>
                       ) : project.screenshots ? (
-                        <ProjectGallery title={project.title} images={project.screenshots} />
+                        <ProjectGallery title={project.title} images={project.screenshots} format={project.galleryFormat} demoUrl={project.demoUrl} />
                       ) : project.logo ? (
                         <div className="flex min-h-[320px] flex-col items-center justify-center gap-6 rounded-2xl bg-[#253030] p-10 shadow-xl">
                           <img src={project.logo} alt="ECG" width="200" height="200" className="h-40 w-40 object-contain" />
@@ -315,7 +322,7 @@ export default function ProjectsSection() {
                           className="px-6 py-3 border-2 border-gray-300 dark:border-zinc-600 hover:border-gray-400 dark:hover:border-zinc-500 text-gray-800 dark:text-gray-200 rounded-lg font-jersey10 text-xl transition-colors"
                           style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
-                          💻 View Code
+                          View Code
                         </motion.a>
                       )}
                     </div>
