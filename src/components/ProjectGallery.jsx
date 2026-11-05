@@ -36,13 +36,13 @@ export default function ProjectGallery({ title, images, format }) {
       >
         <div className="mb-4 flex items-center justify-between gap-4">
           <h4 className="text-lg font-semibold">{title}</h4>
-          <button type="button" autoFocus onClick={() => dialog.current.close()} className="rounded-lg border border-gray-400 px-4 py-2">Close ×</button>
+          <button type="button" autoFocus onClick={() => dialog.current.close()} className="project-action">Close ×</button>
         </div>
         <img src={images[selected].src} alt={`${title} ${images[selected].label} page`} width="1280" height="720" className={`h-auto rounded-lg ${format === 'phone' ? 'mx-auto max-h-[70vh] w-auto max-w-full' : 'w-full'}`} />
         <div className="mt-4 flex items-center justify-between gap-3">
-          <button type="button" aria-label="Previous page" onClick={() => move(-1)} className="rounded-lg border border-gray-400 px-4 py-2">←</button>
+          <button type="button" aria-label="Previous page" onClick={() => move(-1)} className="project-action">←</button>
           <p aria-live="polite" className="text-center">{images[selected].label} · {selected + 1} / {images.length}</p>
-          <button type="button" aria-label="Next page" onClick={() => move(1)} className="rounded-lg border border-gray-400 px-4 py-2">→</button>
+          <button type="button" aria-label="Next page" onClick={() => move(1)} className="project-action">→</button>
         </div>
       </dialog>, document.body)}
     </>

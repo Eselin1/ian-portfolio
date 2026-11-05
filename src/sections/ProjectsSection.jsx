@@ -266,20 +266,16 @@ export default function ProjectsSection() {
                       {project.hasDemo && (
                         <>
                           <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
                             onClick={() => handleDemoToggle(project.id)}
-                            className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg w-[180px]"
+                            className="project-action"
                             style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                           >
                             {isExpanded ? '■ Stop Demo' : '▶ Try Live Demo'}
                           </motion.button>
                           {project.id === 'rpsmf' && (
                             <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
                               onClick={() => setShowRules(!showRules)}
-                              className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                              className="project-action"
                               style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                             >
                               {showRules ? 'Hide Rules' : 'Show Rules'}
@@ -289,12 +285,10 @@ export default function ProjectsSection() {
                       )}
                       {project.appStoreUrl && (
                         <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
                           href={project.appStoreUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                          className="project-action"
                           style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
                           📱 View on App Store
@@ -302,12 +296,10 @@ export default function ProjectsSection() {
                       )}
                       {project.liveUrl && (
                         <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                          className="project-action"
                           style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
                           {project.screenshots ? 'Live preview ↗' : 'View Live'}
@@ -316,12 +308,10 @@ export default function ProjectsSection() {
                       {project.demoUrl && <ProjectDemoButton title={project.title} url={project.demoUrl} />}
                       {project.githubUrl && (
                         <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 border-2 border-gray-300 dark:border-zinc-600 hover:border-gray-400 dark:hover:border-zinc-500 text-gray-800 dark:text-gray-200 rounded-lg font-jersey10 text-xl transition-colors"
+                          className="project-action"
                           style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
                           View Code

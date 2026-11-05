@@ -96,3 +96,36 @@
 .project-photo-stack--phone { aspect-ratio: .95; }
 .project-photo-stack--phone .project-photo-card { width:42%; left:calc(var(--card-index) * 29%); top:6%; aspect-ratio:18 / 37; border-radius:22px; border:4px solid #17201c; }
 .project-photo-stack--phone .project-photo-card:nth-child(2) { top:2%; }
+
+/* Shared project actions follow the original game button treatment. */
+.project-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .75rem 1.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: .5rem;
+  background: transparent;
+  color: inherit;
+  font-family: "Jersey 10", system-ui, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+.dark .project-action { border-color: #52525b; }
+.project-action:hover,
+.project-action:focus-visible {
+  background: var(--sage);
+  border-color: var(--sage);
+  color: white;
+  transform: scale(1.05);
+}
+.project-action:focus-visible { outline: 2px solid var(--sage); outline-offset: 4px; }
+.project-action:active { transform: scale(.95); }
+@media (prefers-reduced-motion: reduce) {
+  .project-action { transition: none; }
+  .project-action:hover, .project-action:focus-visible, .project-action:active { transform: none; }
+}
