@@ -47,3 +47,52 @@
     @apply bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200;
   }
 }
+
+/* A horizontal fan of photos; each exposed edge remains selectable. */
+.project-photo-stack {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  aspect-ratio: 1.55;
+}
+
+.project-photo-card {
+  position: absolute;
+  left: calc(var(--card-index) * 18%);
+  top: 14%;
+  width: 64%;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  border: 3px solid white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgb(0 0 0 / 24%);
+  z-index: calc(3 - var(--card-index));
+  transform: rotate(calc((var(--card-index) - 1) * 7deg));
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  cursor: zoom-in;
+}
+
+.project-photo-card:nth-child(2) {
+  top: 9%;
+}
+
+.project-photo-card:hover,
+.project-photo-card:focus-visible {
+  z-index: 10;
+  transform: translateY(-12px) rotate(0deg) scale(1.04);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 36%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-photo-card { transition: none; }
+  .project-photo-card:hover,
+  .project-photo-card:focus-visible { transform: rotate(0deg); }
+}
+
+.project-photo-card:focus-visible {
+  z-index: 20;
+}
+
+.project-photo-stack--phone { aspect-ratio: .95; }
+.project-photo-stack--phone .project-photo-card { width:42%; left:calc(var(--card-index) * 29%); top:6%; aspect-ratio:18 / 37; border-radius:22px; border:4px solid #17201c; }
+.project-photo-stack--phone .project-photo-card:nth-child(2) { top:2%; }
