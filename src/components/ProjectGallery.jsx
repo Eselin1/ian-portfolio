@@ -1,10 +1,8 @@
 import { createPortal } from 'react-dom';
 import React, { useRef, useState } from 'react';
 
-export default function ProjectGallery({ title, images, format, demoUrl }) {
+export default function ProjectGallery({ title, images, format }) {
   const dialog = useRef(null);
-  const demoDialog = useRef(null);
-  const [demoOpen, setDemoOpen] = useState(false);
   const [selected, setSelected] = useState(0);
   const move = (step) => setSelected((current) => (current + step + images.length) % images.length);
 
@@ -26,11 +24,6 @@ export default function ProjectGallery({ title, images, format, demoUrl }) {
         ))}
       </div>
       <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">Hover to explore · Select a page to enlarge</p>
-      {demoUrl && <button type="button" onClick={() => { setDemoOpen(true); demoDialog.current.showModal(); }} className="mt-4 rounded-lg bg-blue-600 px-6 py-3 font-jersey10 text-xl text-white hover:bg-blue-700">Try live demo</button>}
-      {demoUrl && createPortal(<dialog ref={demoDialog} aria-label={`${title} interactive demo`} onClose={() => setDemoOpen(false)} className="m-auto w-[95vw] max-w-[430px] max-h-[95vh] overflow-auto rounded-2xl bg-white p-3 text-gray-900 shadow-2xl backdrop:bg-black/80">
-        <div className="mb-2 flex items-center justify-between gap-3"><span className="font-semibold">{title} · Demo</span><button autoFocus type="button" onClick={() => demoDialog.current.close()} className="rounded-lg border border-gray-400 px-3 py-2">Close ×</button></div>
-        {demoOpen && <iframe title={`${title} interactive demo with fictional data`} src={demoUrl} className="block w-full rounded-xl border-0" style={{ height: 'min(740px, 78vh)' }} />}
-      </dialog>, document.body)}
       {createPortal(<dialog
         ref={dialog}
         aria-label={`${title} screenshots`}

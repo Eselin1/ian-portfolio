@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ProjectDemoButton from '../components/ProjectDemoButton';
 import ProjectGallery from '../components/ProjectGallery';
 import RPSMFGame from '../components/RPSMFGame';
 
@@ -211,7 +212,7 @@ export default function ProjectsSection() {
                           </AnimatePresence>
                         </div>
                       ) : project.screenshots ? (
-                        <ProjectGallery title={project.title} images={project.screenshots} format={project.galleryFormat} demoUrl={project.demoUrl} />
+                        <ProjectGallery title={project.title} images={project.screenshots} format={project.galleryFormat} />
                       ) : project.logo ? (
                         <div className="flex min-h-[320px] flex-col items-center justify-center gap-6 rounded-2xl bg-[#253030] p-10 shadow-xl">
                           <img src={project.logo} alt="ECG" width="200" height="200" className="h-40 w-40 object-contain" />
@@ -312,6 +313,7 @@ export default function ProjectsSection() {
                           {project.screenshots ? 'Live preview ↗' : 'View Live'}
                         </motion.a>
                       )}
+                      {project.demoUrl && <ProjectDemoButton title={project.title} url={project.demoUrl} />}
                       {project.githubUrl && (
                         <motion.a
                           whileHover={{ scale: 1.05 }}
