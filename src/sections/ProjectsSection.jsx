@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ProjectGallery from '../components/ProjectGallery';
 import RPSMFGame from '../components/RPSMFGame';
 
 const projects = [
@@ -39,7 +40,11 @@ const projects = [
     summary: 'A clear home for consulting expertise.',
     description: 'A professional portfolio for SaaS implementation and life sciences consulting, with a dedicated CV page and a contact form connected to a shared Cloudflare Worker.',
     tech: ['HTML', 'CSS', 'JavaScript', 'Cloudflare Workers'],
-    screenshot: '/projects/dee-repsher.png',
+    screenshots: [
+      { src: '/projects/dee-repsher.png', label: 'Home' },
+      { src: '/projects/dee-repsher-cv.png', label: 'CV' },
+      { src: '/projects/dee-repsher-contact.png', label: 'Contact' }
+    ],
     liveUrl: 'https://drepsher.com'
   },
   {
@@ -50,7 +55,11 @@ const projects = [
     summary: 'A storefront connected to an existing eBay shop.',
     description: 'A retail website that brings an eBay store’s listings into a dedicated shopping page, with a responsive branded homepage and a separate contact page.',
     tech: ['HTML', 'CSS', 'JavaScript', 'eBay'],
-    screenshot: '/projects/driveaxlegear.png',
+    screenshots: [
+      { src: '/projects/driveaxlegear.png', label: 'Home' },
+      { src: '/projects/driveaxlegear-shop.png', label: 'Shop' },
+      { src: '/projects/driveaxlegear-contact.png', label: 'Contact' }
+    ],
     liveUrl: 'https://driveaxlegear.com'
   },
   {
@@ -71,7 +80,8 @@ const projects = [
     description: 'Full-stack telecommunications platform serving enterprise clients. Features real-time WebSocket communication, administrative dashboards, and scalable microservices architecture.',
     tech: ['Angular', 'TypeScript', 'Java', 'Spring Boot', 'WebSockets'],
     hasDemo: false,
-    liveUrl: 'https://www.ecg.co/products/alpaca',
+    logo: '/projects/ecg-logo.jpeg',
+    liveUrl: null,
     githubUrl: null,
     caseStudyUrl: null
   }
@@ -193,32 +203,13 @@ export default function ProjectsSection() {
                             )}
                           </AnimatePresence>
                         </div>
-                      ) : project.screenshot ? (
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`Open ${project.title} live preview in a new tab`}
-                          className="group block overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-600 bg-white shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
-                        >
-                          <div className="flex items-center gap-2 border-b border-gray-200 bg-gray-100 px-4 py-3 text-xs text-gray-600">
-                            <span aria-hidden="true">● ● ●</span>
-                            <span className="ml-2">{new URL(project.liveUrl).hostname}</span>
-                          </div>
-                          <img
-                            src={project.screenshot}
-                            alt={`${project.title} homepage screenshot`}
-                            width="1280"
-                            height="720"
-                            loading="lazy"
-                            decoding="async"
-                            className="aspect-video w-full object-cover object-top transition-transform duration-300 motion-safe:group-hover:scale-[1.02]"
-                          />
-                          <div className="flex items-center justify-between gap-3 border-t border-gray-200 px-4 py-3 text-sm text-gray-700">
-                            <span>Explore the live website</span>
-                            <span aria-hidden="true">↗</span>
-                          </div>
-                        </a>
+                      ) : project.screenshots ? (
+                        <ProjectGallery title={project.title} images={project.screenshots} />
+                      ) : project.logo ? (
+                        <div className="flex min-h-[320px] flex-col items-center justify-center gap-6 rounded-2xl bg-[#253030] p-10 shadow-xl">
+                          <img src={project.logo} alt="ECG" width="200" height="200" className="h-40 w-40 object-contain" />
+                          <p className="font-jersey25 text-xl text-white">Enterprise VoIP Application</p>
+                        </div>
                       ) : project.monogram ? (
                         <div className="bg-sage/20 dark:bg-sage/10 rounded-2xl min-h-[280px] md:min-h-[360px] border border-sage/40 p-8 md:p-10 flex flex-col justify-between">
                           <p className="text-sm uppercase tracking-widest text-gray-700 dark:text-gray-300">{project.category}</p>
@@ -311,7 +302,7 @@ export default function ProjectsSection() {
                           className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
                           style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
-                          {project.screenshot ? 'Live preview ↗' : 'View Live'}
+                          {project.screenshots ? 'Live preview ↗' : 'View Live'}
                         </motion.a>
                       )}
                       {project.githubUrl && (
