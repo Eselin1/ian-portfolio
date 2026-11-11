@@ -16,9 +16,9 @@ const projects = [
     galleryFormat: 'phone',
     demoUrl: '/demos/pitchform/index.html',
     screenshots: [
-      { src: '/projects/pitchform-today.png', label: 'Today' },
-      { src: '/projects/pitchform-calendar.png', label: 'Calendar' },
-      { src: '/projects/pitchform-train.png', label: 'Train' }
+      { src: '/projects/pitchform-today.png', label: 'Today', view: 'today' },
+      { src: '/projects/pitchform-calendar.png', label: 'Calendar', view: 'calendar' },
+      { src: '/projects/pitchform-train.png', label: 'Train', view: 'train' }
     ],
     githubUrl: 'https://github.com/Eselin1/PitchForm'
   },
@@ -52,9 +52,9 @@ const projects = [
     description: 'A professional portfolio for SaaS implementation and life sciences consulting, with a dedicated CV page and a contact form connected to a shared Cloudflare Worker.',
     tech: ['HTML', 'CSS', 'JavaScript', 'Cloudflare Workers'],
     screenshots: [
-      { src: '/projects/dee-repsher.png', label: 'Home' },
-      { src: '/projects/dee-repsher-cv.png', label: 'CV' },
-      { src: '/projects/dee-repsher-contact.png', label: 'Contact' }
+      { src: '/projects/dee-repsher.png', href: 'https://drepsher.com/', label: 'Home' },
+      { src: '/projects/dee-repsher-cv.png', href: 'https://drepsher.com/cv.html', label: 'CV' },
+      { src: '/projects/dee-repsher-contact.png', href: 'https://drepsher.com/contact.html', label: 'Contact' }
     ],
     liveUrl: 'https://drepsher.com'
   },
@@ -67,9 +67,9 @@ const projects = [
     description: 'A retail website that brings an eBay store’s listings into a dedicated shopping page, with a responsive branded homepage and a separate contact page.',
     tech: ['HTML', 'CSS', 'JavaScript', 'eBay'],
     screenshots: [
-      { src: '/projects/driveaxlegear.png', label: 'Home' },
-      { src: '/projects/driveaxlegear-shop.png', label: 'Shop' },
-      { src: '/projects/driveaxlegear-contact.png', label: 'Contact' }
+      { src: '/projects/driveaxlegear.png', href: 'https://driveaxlegear.com/', label: 'Home' },
+      { src: '/projects/driveaxlegear-shop.png', href: 'https://driveaxlegear.com/shop.html', label: 'Shop' },
+      { src: '/projects/driveaxlegear-contact.png', href: 'https://driveaxlegear.com/contact.html', label: 'Contact' }
     ],
     liveUrl: 'https://driveaxlegear.com'
   },
@@ -215,7 +215,7 @@ export default function ProjectsSection() {
                           </AnimatePresence>
                         </div>
                       ) : project.screenshots ? (
-                        <ProjectGallery title={project.title} images={project.screenshots} format={project.galleryFormat} />
+                        <ProjectGallery title={project.title} images={project.screenshots} format={project.galleryFormat} demoUrl={project.demoUrl} />
                       ) : project.logo ? (
                         <div className="flex min-h-[320px] flex-col items-center justify-center gap-6 rounded-2xl bg-[#253030] p-10 shadow-xl">
                           <img src={project.logo} alt="ECG" width="200" height="200" className="h-40 w-40 object-contain" />

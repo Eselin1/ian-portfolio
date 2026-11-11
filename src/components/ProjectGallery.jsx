@@ -1,7 +1,8 @@
+import ProjectDemoButton from './ProjectDemoButton';
 import { createPortal } from 'react-dom';
 import React, { useRef, useState } from 'react';
 
-export default function ProjectGallery({ title, images, format }) {
+export default function ProjectGallery({ title, images, format, demoUrl }) {
   const dialog = useRef(null);
   const [selected, setSelected] = useState(0);
   const move = (step) => setSelected((current) => (current + step + images.length) % images.length);
@@ -9,21 +10,21 @@ export default function ProjectGallery({ title, images, format }) {
   return (
     <>
       <div className={`project-photo-stack ${format === 'phone' ? 'project-photo-stack--phone' : ''}`}>
-        {images.map((image, index) => (
-          <button
-            key={image.src}
-            type="button"
-            onClick={() => { setSelected(index); dialog.current.showModal(); }}
-            aria-label={`View ${title}: ${image.label}`}
-            className="project-photo-card group bg-gray-100 focus-visible:outline focus-visible:outline-4 focus-visible:outline-blue-600"
-            style={{ '--card-index': index }}
-          >
+        {images.map((image, index) => {
+          const content = <>
             <img src={image.src} alt={`${title} ${image.label} page`} loading="lazy" width="1280" height="720" className="h-full w-full object-cover object-top" />
             <span className="absolute bottom-2 left-2 rounded-full bg-black/75 px-3 py-1 text-xs text-white">{image.label} <span aria-hidden="true">↗</span></span>
-          </button>
-        ))}
+          </>;
+          const props = {
+            className: 'project-photo-card group bg-gray-100 focus-visible:outline focus-visible:outline-4 focus-visible:outline-blue-600',
+            style: { '--card-index': index },
+          };
+          if (demoUrl) return <ProjectDemoButton key={image.src} title={title} url={`${demoUrl}?view=${image.view ?? 'today'}`} aria-label={`Try ${title}: ${image.label} live demo`} {...props}>{content}</ProjectDemoButton>;
+          if (image.href) return <a key={image.src} href={image.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${title}: ${image.label} in a new tab`} {...props}>{content}</a>;
+          return <button key={image.src} type="button" onClick={() => { setSelected(index); dialog.current.showModal(); }} aria-label={`View ${title}: ${image.label}`} {...props}>{content}</button>;
+        })}
       </div>
-      <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">Hover to explore · Select a page to enlarge</p>
+      <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">Hover to explore · {demoUrl ? 'Select a page to try the demo' : images.some(image => image.href) ? 'Select a page to visit the site' : 'Select a page to enlarge'}</p>
       {createPortal(<dialog
         ref={dialog}
         aria-label={`${title} screenshots`}
