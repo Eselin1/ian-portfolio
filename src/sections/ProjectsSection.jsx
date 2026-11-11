@@ -48,6 +48,7 @@ const projects = [
   },
   {
     id: 'dee-repsher',
+    hidden: true,
     title: 'Dee Repsher Portfolio',
     category: 'Professional portfolio',
     monogram: 'DR',
@@ -144,7 +145,7 @@ export default function ProjectsSection() {
         </motion.div>
 
         <div className="space-y-16">
-          {projects.map((project, index) => {
+          {projects.filter((project) => !project.hidden).map((project, index) => {
             const isExpanded = expandedProject === project.id;
             const DemoComponent = project.demoComponent;
             const isEven = index % 2 === 0;
