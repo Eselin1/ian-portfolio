@@ -32,12 +32,15 @@ const projects = [
     tech: ['Shopify', 'Liquid', 'JavaScript', 'CSS']
   },
   {
-    id: 'papersculptures',
-    title: 'Paper Sculptures Look Like Statues',
+    id: 'tattoo-booking-admin',
+    title: 'Tattoo Booking Admin',
     category: 'Booking & administration',
-    monogram: 'PS',
-    summary: 'From first inquiry to an organized booking workflow.',
-    description: 'A custom site with a waitlist and booking form, reference file uploads, and an admin dashboard. Submission management includes status tracking, internal notes, and CSV exports, backed by Cloudflare Pages Functions, D1, and R2.',
+    screenshots: [
+      { src: '/projects/tattoo-admin-overview.png', label: 'Dashboard' },
+      { src: '/projects/tattoo-admin-calendar.png', label: 'Appointments' },
+      { src: '/projects/tattoo-admin-inquiry.png', label: 'Inquiry details' }
+    ],
+    description: 'An admin dashboard for managing tattoo booking inquiries, reviewing client details, tracking status history, and scheduling appointments. Includes search, filters, internal notes, and CSV exports, backed by Cloudflare Pages Functions, D1, and R2. Preview shown with fictional sample data.',
     tech: ['JavaScript', 'Cloudflare Pages', 'D1', 'R2']
   },
   {
