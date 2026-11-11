@@ -26,8 +26,11 @@ const projects = [
     id: 'vineandcloth',
     title: 'Vine & Cloth',
     category: 'E-commerce theme',
-    monogram: 'V&C',
-    summary: 'An editorial storefront for personal style.',
+    screenshots: [
+      { src: '/projects/vine-cloth-home.png', label: 'Home' },
+      { src: '/projects/vine-cloth-styling.png', label: 'Personal Styling' },
+      { src: '/projects/vine-cloth-story.png', label: 'Our Story' }
+    ],
     description: 'A custom Shopify Online Store 2.0 theme built on Dawn. Reusable editorial sections, personal styling pages, and service inquiry forms pair a distinctive visual identity with Shopify’s product, collection, and cart experiences.',
     tech: ['Shopify', 'Liquid', 'JavaScript', 'CSS']
   },
