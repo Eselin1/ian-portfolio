@@ -1,8 +1,82 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ProjectDemoButton from '../components/ProjectDemoButton';
+import ProjectGallery from '../components/ProjectGallery';
 import RPSMFGame from '../components/RPSMFGame';
 
 const projects = [
+  {
+    id: 'pitchform',
+    title: 'PitchForm',
+    category: 'Training & fitness',
+    monogram: 'PF',
+    summary: 'A training plan that moves with your week.',
+    description: 'A soccer strength and conditioning progressive web app with weekly scheduling, workout logging, and per-set progression. Local-first storage keeps training history on the device, with optional WHOOP integration.',
+    tech: ['React', 'TypeScript', 'Vite', 'PWA'],
+    galleryFormat: 'phone',
+    demoUrl: '/demos/pitchform/index.html',
+    screenshots: [
+      { src: '/projects/pitchform-today.png', label: 'Today', view: 'today' },
+      { src: '/projects/pitchform-calendar.png', label: 'Calendar', view: 'calendar' },
+      { src: '/projects/pitchform-train.png', label: 'Train', view: 'train' }
+    ],
+    githubUrl: 'https://github.com/Eselin1/PitchForm'
+  },
+  {
+    id: 'vineandcloth',
+    title: 'Vine & Cloth',
+    category: 'E-commerce theme',
+    screenshots: [
+      { src: '/projects/vine-cloth-home.png', label: 'Home' },
+      { src: '/projects/vine-cloth-styling.png', label: 'Personal Styling' },
+      { src: '/projects/vine-cloth-story.png', label: 'Our Story' }
+    ],
+    description: 'A custom Shopify Online Store 2.0 theme built on Dawn. Reusable editorial sections, personal styling pages, and service inquiry forms pair a distinctive visual identity with Shopify’s product, collection, and cart experiences.',
+    tech: ['Shopify', 'Liquid', 'JavaScript', 'CSS']
+  },
+  {
+    id: 'tattoo-booking-admin',
+    title: 'Tattoo Booking Admin',
+    category: 'Booking & administration',
+    screenshots: [
+      { src: '/projects/tattoo-admin-overview.png', label: 'Dashboard' },
+      { src: '/projects/tattoo-admin-calendar.png', label: 'Appointments' },
+      { src: '/projects/tattoo-admin-inquiry.png', label: 'Inquiry details' }
+    ],
+    description: 'An admin dashboard for managing tattoo booking inquiries, reviewing client details, tracking status history, and scheduling appointments. Includes search, filters, internal notes, and CSV exports, backed by Cloudflare Pages Functions, D1, and R2. Preview shown with fictional sample data.',
+    tech: ['JavaScript', 'Cloudflare Pages', 'D1', 'R2']
+  },
+  {
+    id: 'dee-repsher',
+    hidden: true,
+    title: 'Dee Repsher Portfolio',
+    category: 'Professional portfolio',
+    monogram: 'DR',
+    summary: 'A clear home for consulting expertise.',
+    description: 'A professional portfolio for SaaS implementation and life sciences consulting, with a dedicated CV page and a contact form connected to a shared Cloudflare Worker.',
+    tech: ['HTML', 'CSS', 'JavaScript', 'Cloudflare Workers'],
+    screenshots: [
+      { src: '/projects/dee-repsher.png', href: 'https://drepsher.com/', label: 'Home' },
+      { src: '/projects/dee-repsher-cv.png', href: 'https://drepsher.com/cv.html', label: 'CV' },
+      { src: '/projects/dee-repsher-contact.png', href: 'https://drepsher.com/contact.html', label: 'Contact' }
+    ],
+    liveUrl: 'https://drepsher.com'
+  },
+  {
+    id: 'driveaxlegear',
+    title: 'DriveAxleGear',
+    category: 'Retail website',
+    monogram: 'DAG',
+    summary: 'A storefront connected to an existing eBay shop.',
+    description: 'A retail website that brings an eBay store’s listings into a dedicated shopping page, with a responsive branded homepage and a separate contact page.',
+    tech: ['HTML', 'CSS', 'JavaScript', 'eBay'],
+    screenshots: [
+      { src: '/projects/driveaxlegear.png', href: 'https://driveaxlegear.com/', label: 'Home' },
+      { src: '/projects/driveaxlegear-shop.png', href: 'https://driveaxlegear.com/shop.html', label: 'Shop' },
+      { src: '/projects/driveaxlegear-contact.png', href: 'https://driveaxlegear.com/contact.html', label: 'Contact' }
+    ],
+    liveUrl: 'https://driveaxlegear.com'
+  },
   {
     id: 'rpsmf',
     title: 'Rock Paper Scissors Middle Finger',
@@ -21,7 +95,8 @@ const projects = [
     description: 'Full-stack telecommunications platform serving enterprise clients. Features real-time WebSocket communication, administrative dashboards, and scalable microservices architecture.',
     tech: ['Angular', 'TypeScript', 'Java', 'Spring Boot', 'WebSockets'],
     hasDemo: false,
-    liveUrl: 'https://www.ecg.co/products/alpaca',
+    logo: '/projects/ecg-logo.jpeg',
+    liveUrl: null,
     githubUrl: null,
     caseStudyUrl: null
   }
@@ -70,7 +145,7 @@ export default function ProjectsSection() {
         </motion.div>
 
         <div className="space-y-16">
-          {projects.map((project, index) => {
+          {projects.filter((project) => !project.hidden).map((project, index) => {
             const isExpanded = expandedProject === project.id;
             const DemoComponent = project.demoComponent;
             const isEven = index % 2 === 0;
@@ -143,6 +218,19 @@ export default function ProjectsSection() {
                             )}
                           </AnimatePresence>
                         </div>
+                      ) : project.screenshots ? (
+                        <ProjectGallery title={project.title} images={project.screenshots} format={project.galleryFormat} demoUrl={project.demoUrl} />
+                      ) : project.logo ? (
+                        <div className="flex min-h-[320px] flex-col items-center justify-center gap-6 rounded-2xl bg-[#253030] p-10 shadow-xl">
+                          <img src={project.logo} alt="ECG" width="200" height="200" className="h-40 w-40 object-contain" />
+                          <p className="font-jersey25 text-xl text-white">Alpaca</p>
+                        </div>
+                      ) : project.monogram ? (
+                        <div className="bg-sage/20 dark:bg-sage/10 rounded-2xl min-h-[280px] md:min-h-[360px] border border-sage/40 p-8 md:p-10 flex flex-col justify-between">
+                          <p className="text-sm uppercase tracking-widest text-gray-700 dark:text-gray-300">{project.category}</p>
+                          <div aria-hidden="true" className="font-pixelify text-6xl md:text-8xl text-gray-900 dark:text-white my-8">{project.monogram}</div>
+                          <p className="font-jersey25 text-2xl text-gray-800 dark:text-gray-200 max-w-sm">{project.summary}</p>
+                        </div>
                       ) : (
                         <div key="placeholder" className="bg-gradient-to-br from-gray-200 to-gray-300 dark:from-zinc-800 dark:to-zinc-700 rounded-2xl h-[400px] flex items-center justify-center shadow-xl">
                           <div className="text-center p-8">
@@ -185,20 +273,16 @@ export default function ProjectsSection() {
                       {project.hasDemo && (
                         <>
                           <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
                             onClick={() => handleDemoToggle(project.id)}
-                            className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg w-[180px]"
+                            className="project-action"
                             style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                           >
                             {isExpanded ? '■ Stop Demo' : '▶ Try Live Demo'}
                           </motion.button>
                           {project.id === 'rpsmf' && (
                             <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
                               onClick={() => setShowRules(!showRules)}
-                              className="px-6 py-3 border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                              className="project-action"
                               style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                             >
                               {showRules ? 'Hide Rules' : 'Show Rules'}
@@ -208,12 +292,10 @@ export default function ProjectsSection() {
                       )}
                       {project.appStoreUrl && (
                         <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
                           href={project.appStoreUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                          className="project-action"
                           style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
                           📱 View on App Store
@@ -221,28 +303,25 @@ export default function ProjectsSection() {
                       )}
                       {project.liveUrl && (
                         <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-jersey10 text-xl transition-colors shadow-lg"
+                          className="project-action"
                           style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
-                          View Live
+                          {project.screenshots ? 'Live preview ↗' : 'View Live'}
                         </motion.a>
                       )}
+                      {project.demoUrl && <ProjectDemoButton title={project.title} url={project.demoUrl} />}
                       {project.githubUrl && (
                         <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-6 py-3 border-2 border-gray-300 dark:border-zinc-600 hover:border-gray-400 dark:hover:border-zinc-500 text-gray-800 dark:text-gray-200 rounded-lg font-jersey10 text-xl transition-colors"
+                          className="project-action"
                           style={{ fontFamily: '"Jersey 10", system-ui, sans-serif' }}
                         >
-                          💻 View Code
+                          View Code
                         </motion.a>
                       )}
                     </div>
