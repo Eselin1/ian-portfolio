@@ -223,7 +223,7 @@ export default function AboutSection() {
               
               <motion.a
                 href="/resume.pdf"
-                download
+                download="Ian_Repsher_Resume.pdf"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center gap-2 mt-6 border border-gray-300 dark:border-zinc-600 hover:bg-sage hover:border-sage hover:text-white px-6 py-2.5 rounded-lg font-jersey10 text-xl transition-colors"
